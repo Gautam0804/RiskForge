@@ -1,18 +1,30 @@
 const { Pool } = require("pg");
 const env = require("./env");
 
+const isProductionDatabase =
+    env.databaseUrl.includes("render.com");
+
 const pool = new Pool({
     connectionString: env.databaseUrl,
 
     max: 20,
-
     idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 10000,
 
-    connectionTimeoutMillis: 5000
+    ...(isProductionDatabase
+        ? {
+              ssl: {
+                  rejectUnauthorized: false
+              }
+          }
+        : {})
 });
 
 pool.on("error", (error) => {
-    console.error("Unexpected PostgreSQL error:", error);
+    console.error(
+        "Unexpected PostgreSQL error:",
+        error
+    );
 });
 
 async function checkDatabaseConnection() {
@@ -28,6 +40,7 @@ async function checkDatabaseConnection() {
 
 module.exports = {
     pool,
-    query: (text, params) => pool.query(text, params),
+    query: (text, params) =>
+        pool.query(text, params),
     checkDatabaseConnection
 };
