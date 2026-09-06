@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: riskforge-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true

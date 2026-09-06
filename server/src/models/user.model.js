@@ -1,0 +1,96 @@
+const db = require("../config/database");
+
+async function findByEmail(email) {
+    const result = await db.query(
+        `
+        SELECT
+            id,
+            email,
+            password_hash,
+            full_name,
+            role,
+            is_active,
+            last_login_at,
+            created_at
+        FROM users
+        WHERE email = $1
+        LIMIT 1
+        `,
+        [email.toLowerCase()]
+    );
+
+    return result.rows[0] || null;
+}
+
+async function findById(id) {
+    const result = await db.query(
+        `
+        SELECT
+            id,
+            email,
+            full_name,
+            role,
+            is_active,
+            last_login_at,
+            created_at
+        FROM users
+        WHERE id = $1
+        LIMIT 1
+        `,
+        [id]
+    );
+
+    return result.rows[0] || null;
+}
+
+async function createUser({
+    email,
+    passwordHash,
+    fullName,
+    role = "analyst"
+}) {
+    const result = await db.query(
+        `
+        INSERT INTO users (
+            email,
+            password_hash,
+            full_name,
+            role
+        )
+        VALUES ($1, $2, $3, $4)
+        RETURNING
+            id,
+            email,
+            full_name,
+            role,
+            is_active,
+            created_at
+        `,
+        [
+            email.toLowerCase(),
+            passwordHash,
+            fullName,
+            role
+        ]
+    );
+
+    return result.rows[0];
+}
+
+async function updateLastLogin(id) {
+    await db.query(
+        `
+        UPDATE users
+        SET last_login_at = NOW()
+        WHERE id = $1
+        `,
+        [id]
+    );
+}
+
+module.exports = {
+    findByEmail,
+    findById,
+    createUser,
+    updateLastLogin
+};

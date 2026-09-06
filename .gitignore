@@ -1,0 +1,67 @@
+# =========================
+# Environment
+# =========================
+
+.env
+.env.*
+!.env.example
+
+# =========================
+# Node
+# =========================
+
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =========================
+# Frontend
+# =========================
+
+client/dist/
+client/.vercel/
+
+# =========================
+# Python
+# =========================
+
+ml-service/.venv/
+ml-service/__pycache__/
+ml-service/**/*.pyc
+ml-service/.pytest_cache/
+
+# =========================
+# ML artifacts
+# =========================
+
+ml-service/models/*.pkl
+ml-service/models/*.joblib
+ml-service/models/*.bin
+
+# =========================
+# IDE
+# =========================
+
+.vscode/
+.idea/
+
+# =========================
+# OS
+# =========================
+
+.DS_Store
+Thumbs.db
+
+# =========================
+# Logs
+# =========================
+
+*.log
+
+# =========================
+# Docker
+# =========================
+
+docker/postgres_data/
+docker/redis_data/
