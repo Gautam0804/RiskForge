@@ -1237,4 +1237,4 @@ Analyze.
 Investigate.
 Respond.
 
-Built with React, Node.js, PostgreSQL.
+Built with React, Node.js, PostgreSQL, Redis, Python, XGBoost, FastAPI and AI.
