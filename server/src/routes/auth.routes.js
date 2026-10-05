@@ -24,12 +24,22 @@ const asyncHandler =
 
 const router = express.Router();
 
+
+/* =========================================
+   REGISTER
+========================================= */
+
 router.post(
     "/register",
     authLimiter,
     validate(registerSchema),
     asyncHandler(controller.register)
 );
+
+
+/* =========================================
+   LOGIN
+========================================= */
 
 router.post(
     "/login",
@@ -38,10 +48,28 @@ router.post(
     asyncHandler(controller.login)
 );
 
+
+/* =========================================
+   CURRENT USER
+========================================= */
+
 router.get(
     "/me",
     authenticate,
     asyncHandler(controller.me)
 );
+
+
+/* =========================================
+   CHANGE PASSWORD
+========================================= */
+
+router.patch(
+    "/change-password",
+    authenticate,
+    authLimiter,
+    asyncHandler(controller.changePassword)
+);
+
 
 module.exports = router;

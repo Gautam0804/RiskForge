@@ -1,84 +1,154 @@
-import { createContext, useEffect, useState } from "react";
-import api from "../services/api";
+import {
+    createContext,
+    useEffect,
+    useState
+} from "react";
 
-export const AuthContext = createContext(null);
+import {
+    login as loginRequest,
+    getCurrentUser,
+    logout as authLogout
+} from "../services/auth.service";
+
+
+export const AuthContext =
+    createContext(null);
+
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(() => {
-        const savedUser = localStorage.getItem("riskforge_user");
 
-        try {
-            return savedUser ? JSON.parse(savedUser) : null;
-        } catch {
-            return null;
-        }
-    });
+    const [user, setUser] =
+        useState(null);
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] =
+        useState(true);
 
-    const token = localStorage.getItem("riskforge_token");
+
+    /* ========================================= */
+    /* LOAD CURRENT USER */
+    /* ========================================= */
 
     useEffect(() => {
-        async function restoreSession() {
+
+        async function loadUser() {
+
+            const token =
+                localStorage.getItem(
+                    "riskforge_token"
+                );
+
+
             if (!token) {
                 setLoading(false);
                 return;
             }
 
+
             try {
-                const response = await api.get("/auth/me");
 
-                const currentUser = response.data.data.user;
+                const data =
+                    await getCurrentUser();
 
-                setUser(currentUser);
-                localStorage.setItem(
-                    "riskforge_user",
-                    JSON.stringify(currentUser)
+                setUser(data.user);
+
+            } catch (error) {
+
+                console.error(
+                    "Failed to load current user:",
+                    error
                 );
-            } catch {
-                localStorage.removeItem("riskforge_token");
-                localStorage.removeItem("riskforge_user");
+
+                localStorage.removeItem(
+                    "riskforge_token"
+                );
+
                 setUser(null);
+
             } finally {
+
                 setLoading(false);
+
             }
         }
 
-        restoreSession();
-    }, [token]);
+
+        loadUser();
+
+    }, []);
+
+
+    /* ========================================= */
+    /* LOGIN */
+    /* ========================================= */
 
     async function login(email, password) {
-        const response = await api.post("/auth/login", {
-            email,
-            password,
-        });
 
-        const { user, token } = response.data.data;
+        const data =
+            await loginRequest(
+                email,
+                password
+            );
 
-        localStorage.setItem("riskforge_token", token);
-        localStorage.setItem("riskforge_user", JSON.stringify(user));
 
-        setUser(user);
+        if (!data?.token) {
+            throw new Error(
+                "Login response did not contain a token."
+            );
+        }
 
-        return user;
+
+        localStorage.setItem(
+            "riskforge_token",
+            data.token
+        );
+
+
+        setUser(data.user);
+
+
+        return data;
+
     }
+
+
+    /* ========================================= */
+    /* LOGOUT */
+    /* ========================================= */
 
     function logout() {
-        localStorage.removeItem("riskforge_token");
-        localStorage.removeItem("riskforge_user");
+
+        authLogout();
 
         setUser(null);
+
     }
+
+
+    /* ========================================= */
+    /* CONTEXT VALUE */
+    /* ========================================= */
+
+    const value = {
+
+        user,
+
+        setUser,
+
+        loading,
+
+        isAuthenticated:
+            Boolean(user),
+
+        login,
+
+        logout
+
+    };
+
 
     return (
         <AuthContext.Provider
-            value={{
-                user,
-                loading,
-                isAuthenticated: Boolean(user),
-                login,
-                logout,
-            }}
+            value={value}
         >
             {children}
         </AuthContext.Provider>

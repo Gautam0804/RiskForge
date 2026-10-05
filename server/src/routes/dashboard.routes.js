@@ -1,7 +1,6 @@
 const express = require("express");
 
-const controller =
-    require("../controllers/dashboard.controller");
+const controller = require("../controllers/dashboard.controller");
 
 const {
     authenticate
@@ -10,12 +9,12 @@ const {
 const asyncHandler =
     require("../utils/asyncHandler");
 
-const router =
-    express.Router();
+const router = express.Router();
+
+router.use(authenticate);
 
 router.get(
-    "/",
-    authenticate,
+    "/overview",
     asyncHandler(controller.overview)
 );
 

@@ -1,223 +1,848 @@
+import { useEffect, useMemo, useState } from "react";
+
 import {
-    ResponsiveContainer,
-    AreaChart,
-    Area,
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip
-} from "recharts";
+    Activity,
+    AlertTriangle,
+    ShieldAlert,
+    ShieldCheck,
+    ShieldX,
+    TrendingUp
+} from "lucide-react";
 
-const fraudTrend = [
-    { day: "Mon", transactions: 3200, fraud: 42 },
-    { day: "Tue", transactions: 4100, fraud: 51 },
-    { day: "Wed", transactions: 3800, fraud: 47 },
-    { day: "Thu", transactions: 4600, fraud: 63 },
-    { day: "Fri", transactions: 5200, fraud: 71 },
-    { day: "Sat", transactions: 4300, fraud: 55 },
-    { day: "Sun", transactions: 4892, fraud: 61 }
-];
+import "./AnalyticsCharts.css";
 
-const locations = [
-    { location: "Mumbai", fraud: 82 },
-    { location: "Delhi", fraud: 67 },
-    { location: "Bangalore", fraud: 54 },
-    { location: "Pune", fraud: 43 },
-    { location: "Hyderabad", fraud: 38 }
-];
 
-function MetricCard({ label, value, change }) {
+function getToken() {
     return (
-        <div className="analytics-metric">
-            <span>{label}</span>
-            <strong>{value}</strong>
-            <small>{change}</small>
-        </div>
+        localStorage.getItem("riskforge_token") ||
+        localStorage.getItem("token") ||
+        localStorage.getItem("accessToken") ||
+        localStorage.getItem("authToken")
     );
 }
 
+
+function getRiskClass(level) {
+    return `analytics-risk-${String(
+        level || "low"
+    ).toLowerCase()}`;
+}
+
+
 export default function AnalyticsCharts() {
+
+    const [transactions, setTransactions] =
+        useState([]);
+
+    const [loading, setLoading] =
+        useState(true);
+
+    const [error, setError] =
+        useState("");
+
+
+    async function loadAnalytics() {
+
+        setLoading(true);
+        setError("");
+
+        try {
+
+            const token = getToken();
+
+            if (!token) {
+                throw new Error(
+                    "Authentication required."
+                );
+            }
+
+
+            const response =
+                await fetch(
+                    "http://localhost:5000/api/transactions?limit=100",
+                    {
+                        method: "GET",
+
+                        headers: {
+                            Authorization:
+                                `Bearer ${token}`
+                        }
+                    }
+                );
+
+
+            const data =
+                await response.json();
+
+
+            if (!response.ok) {
+                throw new Error(
+                    data.message ||
+                    "Failed to load analytics."
+                );
+            }
+
+
+            const items =
+                data.data?.transactions ||
+                data.transactions ||
+                [];
+
+
+            setTransactions(items);
+
+        } catch (err) {
+
+            setError(
+                err.message ||
+                "Unable to load analytics."
+            );
+
+        } finally {
+
+            setLoading(false);
+
+        }
+    }
+
+
+    useEffect(() => {
+        loadAnalytics();
+    }, []);
+
+
+    const statistics =
+        useMemo(() => {
+
+            const total =
+                transactions.length;
+
+
+            const low =
+                transactions.filter(
+                    (item) =>
+                        item.risk_level === "low"
+                ).length;
+
+
+            const medium =
+                transactions.filter(
+                    (item) =>
+                        item.risk_level === "medium"
+                ).length;
+
+
+            const high =
+                transactions.filter(
+                    (item) =>
+                        item.risk_level === "high"
+                ).length;
+
+
+            const critical =
+                transactions.filter(
+                    (item) =>
+                        item.risk_level === "critical"
+                ).length;
+
+
+            const suspicious =
+                high + critical;
+
+
+            const averageRisk =
+                total > 0
+                    ? (
+                          transactions.reduce(
+                              (sum, item) =>
+                                  sum +
+                                  Number(
+                                      item.risk_score ||
+                                      0
+                                  ),
+                              0
+                          ) / total
+                      ).toFixed(1)
+                    : "0.0";
+
+
+            const averageFraud =
+                total > 0
+                    ? (
+                          transactions.reduce(
+                              (sum, item) =>
+                                  sum +
+                                  Number(
+                                      item.fraud_probability ||
+                                      0
+                                  ),
+                              0
+                          ) /
+                          total *
+                          100
+                      ).toFixed(1)
+                    : "0.0";
+
+
+            return {
+                total,
+                low,
+                medium,
+                high,
+                critical,
+                suspicious,
+                averageRisk,
+                averageFraud
+            };
+
+        }, [transactions]);
+
+
+    const riskPercentages =
+        useMemo(() => {
+
+            const total =
+                statistics.total || 1;
+
+
+            return {
+
+                low:
+                    (
+                        statistics.low /
+                        total *
+                        100
+                    ).toFixed(1),
+
+                medium:
+                    (
+                        statistics.medium /
+                        total *
+                        100
+                    ).toFixed(1),
+
+                high:
+                    (
+                        statistics.high /
+                        total *
+                        100
+                    ).toFixed(1),
+
+                critical:
+                    (
+                        statistics.critical /
+                        total *
+                        100
+                    ).toFixed(1)
+
+            };
+
+        }, [statistics]);
+
+
+    const transactionTypes =
+        useMemo(() => {
+
+            const map = {};
+
+            transactions.forEach(
+                (transaction) => {
+
+                    const type =
+                        transaction.transaction_type ||
+                        "unknown";
+
+                    map[type] =
+                        (map[type] || 0) + 1;
+
+                }
+            );
+
+
+            return Object.entries(map)
+                .sort(
+                    (a, b) =>
+                        b[1] - a[1]
+                )
+                .slice(0, 6);
+
+        }, [transactions]);
+
+
+    const topRiskTransactions =
+        useMemo(() => {
+
+            return [...transactions]
+                .sort(
+                    (a, b) =>
+                        Number(
+                            b.risk_score || 0
+                        ) -
+                        Number(
+                            a.risk_score || 0
+                        )
+                )
+                .slice(0, 5);
+
+        }, [transactions]);
+
+
+    if (loading) {
+
+        return (
+            <div className="analytics-loading">
+
+                <div className="analytics-spinner" />
+
+                <span>
+                    Loading analytics...
+                </span>
+
+            </div>
+        );
+    }
+
+
     return (
-        <div className="analytics-page">
 
-            <div className="analytics-metrics">
-                <MetricCard
-                    label="Fraud Rate"
-                    value="0.12%"
-                    change="+0.02% this week"
-                />
+        <div className="analytics-container">
 
-                <MetricCard
-                    label="Detection Accuracy"
-                    value="97.8%"
-                    change="+1.4% this week"
-                />
 
-                <MetricCard
-                    label="False Positive Rate"
-                    value="2.1%"
-                    change="-0.6% this week"
-                />
+            {/* ERROR */}
 
-                <MetricCard
-                    label="Average Risk Score"
-                    value="34.7"
-                    change="-3.2% this week"
-                />
-            </div>
+            {error && (
 
-            <div className="analytics-grid">
+                <div className="analytics-error">
 
-                <div className="dashboard-card analytics-chart-card">
-                    <div className="section-header">
-                        <div>
-                            <h3>Fraud Detection Trend</h3>
-                            <p>Transaction volume and detected fraud over the last 7 days</p>
-                        </div>
-                    </div>
+                    <AlertTriangle size={17} />
 
-                    <div className="analytics-chart">
-                        <ResponsiveContainer width="100%" height={300}>
-                            <AreaChart
-                                data={fraudTrend}
-                                margin={{
-                                    top: 10,
-                                    right: 20,
-                                    left: -20,
-                                    bottom: 0
-                                }}
-                            >
-                                <defs>
-                                    <linearGradient
-                                        id="fraudGradient"
-                                        x1="0"
-                                        y1="0"
-                                        x2="0"
-                                        y2="1"
-                                    >
-                                        <stop
-                                            offset="0%"
-                                            stopOpacity={0.25}
-                                        />
-                                        <stop
-                                            offset="100%"
-                                            stopOpacity={0}
-                                        />
-                                    </linearGradient>
-                                </defs>
+                    <span>
+                        {error}
+                    </span>
 
-                                <CartesianGrid
-                                    stroke="#1c2330"
-                                    vertical={false}
-                                />
-
-                                <XAxis
-                                    dataKey="day"
-                                    tick={{
-                                        fill: "#596474",
-                                        fontSize: 9
-                                    }}
-                                    axisLine={false}
-                                    tickLine={false}
-                                />
-
-                                <YAxis
-                                    tick={{
-                                        fill: "#596474",
-                                        fontSize: 9
-                                    }}
-                                    axisLine={false}
-                                    tickLine={false}
-                                />
-
-                                <Tooltip
-                                    contentStyle={{
-                                        background: "#11161e",
-                                        border: "1px solid #293241",
-                                        borderRadius: "7px",
-                                        color: "#fff",
-                                        fontSize: "11px"
-                                    }}
-                                />
-
-                                <Area
-                                    type="monotone"
-                                    dataKey="fraud"
-                                    stroke="#f87171"
-                                    strokeWidth={2}
-                                    fill="url(#fraudGradient)"
-                                />
-                            </AreaChart>
-                        </ResponsiveContainer>
-                    </div>
                 </div>
 
-                <div className="dashboard-card analytics-chart-card">
-                    <div className="section-header">
-                        <div>
-                            <h3>Fraud by Location</h3>
-                            <p>Detected fraud incidents by region</p>
-                        </div>
+            )}
+
+
+            {/* METRICS */}
+
+            <section className="analytics-metrics">
+
+
+                <div className="analytics-metric-card">
+
+                    <div className="analytics-metric-icon blue">
+                        <Activity size={20} />
                     </div>
 
-                    <div className="analytics-chart">
-                        <ResponsiveContainer width="100%" height={300}>
-                            <BarChart
-                                data={locations}
-                                margin={{
-                                    top: 10,
-                                    right: 20,
-                                    left: -20,
-                                    bottom: 0
-                                }}
-                            >
-                                <CartesianGrid
-                                    stroke="#1c2330"
-                                    vertical={false}
-                                />
+                    <span>
+                        TOTAL TRANSACTIONS
+                    </span>
 
-                                <XAxis
-                                    dataKey="location"
-                                    tick={{
-                                        fill: "#596474",
-                                        fontSize: 9
-                                    }}
-                                    axisLine={false}
-                                    tickLine={false}
-                                />
+                    <strong>
+                        {statistics.total}
+                    </strong>
 
-                                <YAxis
-                                    tick={{
-                                        fill: "#596474",
-                                        fontSize: 9
-                                    }}
-                                    axisLine={false}
-                                    tickLine={false}
-                                />
+                    <small>
+                        Analyzed transactions
+                    </small>
 
-                                <Tooltip
-                                    contentStyle={{
-                                        background: "#11161e",
-                                        border: "1px solid #293241",
-                                        borderRadius: "7px",
-                                        color: "#fff",
-                                        fontSize: "11px"
-                                    }}
-                                />
-
-                                <Bar
-                                    dataKey="fraud"
-                                    fill="#7dd3fc"
-                                    radius={[4, 4, 0, 0]}
-                                />
-                            </BarChart>
-                        </ResponsiveContainer>
-                    </div>
                 </div>
 
-            </div>
+
+                <div className="analytics-metric-card">
+
+                    <div className="analytics-metric-icon red">
+                        <ShieldAlert size={20} />
+                    </div>
+
+                    <span>
+                        SUSPICIOUS
+                    </span>
+
+                    <strong>
+                        {statistics.suspicious}
+                    </strong>
+
+                    <small>
+                        High + critical
+                    </small>
+
+                </div>
+
+
+                <div className="analytics-metric-card">
+
+                    <div className="analytics-metric-icon orange">
+                        <TrendingUp size={20} />
+                    </div>
+
+                    <span>
+                        AVG RISK SCORE
+                    </span>
+
+                    <strong>
+                        {statistics.averageRisk}
+                    </strong>
+
+                    <small>
+                        Out of 100
+                    </small>
+
+                </div>
+
+
+                <div className="analytics-metric-card">
+
+                    <div className="analytics-metric-icon purple">
+                        <ShieldX size={20} />
+                    </div>
+
+                    <span>
+                        AVG FRAUD PROBABILITY
+                    </span>
+
+                    <strong>
+                        {statistics.averageFraud}%
+                    </strong>
+
+                    <small>
+                        Current dataset
+                    </small>
+
+                </div>
+
+
+            </section>
+
+
+
+            {/* MAIN GRID */}
+
+            <section className="analytics-grid">
+
+
+                {/* RISK DISTRIBUTION */}
+
+                <div className="analytics-panel">
+
+                    <div className="analytics-panel-header">
+
+                        <div>
+
+                            <h2>
+                                Risk Distribution
+                            </h2>
+
+                            <p>
+                                Transaction distribution by risk level
+                            </p>
+
+                        </div>
+
+                        <ShieldAlert size={19} />
+
+                    </div>
+
+
+                    <div className="analytics-risk-chart">
+
+
+                        <div className="analytics-donut">
+
+                            <div className="analytics-donut-inner">
+
+                                <strong>
+                                    {statistics.total}
+                                </strong>
+
+                                <span>
+                                    Total
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <div className="analytics-legend">
+
+
+                            <div className="analytics-legend-item">
+
+                                <div>
+                                    <i className="legend-dot low" />
+
+                                    <span>
+                                        Low
+                                    </span>
+                                </div>
+
+                                <strong>
+                                    {statistics.low}
+                                </strong>
+
+                                <small>
+                                    {riskPercentages.low}%
+                                </small>
+
+                            </div>
+
+
+                            <div className="analytics-legend-item">
+
+                                <div>
+                                    <i className="legend-dot medium" />
+
+                                    <span>
+                                        Medium
+                                    </span>
+                                </div>
+
+                                <strong>
+                                    {statistics.medium}
+                                </strong>
+
+                                <small>
+                                    {riskPercentages.medium}%
+                                </small>
+
+                            </div>
+
+
+                            <div className="analytics-legend-item">
+
+                                <div>
+                                    <i className="legend-dot high" />
+
+                                    <span>
+                                        High
+                                    </span>
+                                </div>
+
+                                <strong>
+                                    {statistics.high}
+                                </strong>
+
+                                <small>
+                                    {riskPercentages.high}%
+                                </small>
+
+                            </div>
+
+
+                            <div className="analytics-legend-item">
+
+                                <div>
+                                    <i className="legend-dot critical" />
+
+                                    <span>
+                                        Critical
+                                    </span>
+                                </div>
+
+                                <strong>
+                                    {statistics.critical}
+                                </strong>
+
+                                <small>
+                                    {riskPercentages.critical}%
+                                </small>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                {/* TRANSACTION TYPES */}
+
+                <div className="analytics-panel">
+
+                    <div className="analytics-panel-header">
+
+                        <div>
+
+                            <h2>
+                                Transaction Types
+                            </h2>
+
+                            <p>
+                                Distribution by transaction category
+                            </p>
+
+                        </div>
+
+                        <Activity size={19} />
+
+                    </div>
+
+
+                    <div className="transaction-type-list">
+
+                        {transactionTypes.length === 0 ? (
+
+                            <div className="analytics-empty">
+                                No transaction data available.
+                            </div>
+
+                        ) : (
+
+                            transactionTypes.map(
+                                ([type, count]) => {
+
+                                    const percentage =
+                                        statistics.total > 0
+                                            ? (
+                                                  count /
+                                                  statistics.total *
+                                                  100
+                                              ).toFixed(0)
+                                            : 0;
+
+
+                                    return (
+
+                                        <div
+                                            className="transaction-type-item"
+                                            key={type}
+                                        >
+
+                                            <div className="transaction-type-header">
+
+                                                <span>
+                                                    {type}
+                                                </span>
+
+                                                <strong>
+                                                    {count}
+                                                </strong>
+
+                                            </div>
+
+
+                                            <div className="transaction-type-bar">
+
+                                                <div
+                                                    style={{
+                                                        width:
+                                                            `${percentage}%`
+                                                    }}
+                                                />
+
+                                            </div>
+
+
+                                            <small>
+                                                {percentage}% of transactions
+                                            </small>
+
+                                        </div>
+
+                                    );
+                                }
+                            )
+
+                        )}
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+
+            {/* TOP RISK TRANSACTIONS */}
+
+            <section className="analytics-panel analytics-risk-transactions">
+
+                <div className="analytics-panel-header">
+
+                    <div>
+
+                        <h2>
+                            Highest Risk Transactions
+                        </h2>
+
+                        <p>
+                            Transactions requiring the most attention
+                        </p>
+
+                    </div>
+
+                    <ShieldX size={19} />
+
+                </div>
+
+
+                {topRiskTransactions.length === 0 ? (
+
+                    <div className="analytics-empty">
+
+                        <ShieldCheck size={35} />
+
+                        <p>
+                            No transaction data available.
+                        </p>
+
+                    </div>
+
+                ) : (
+
+                    <div className="analytics-risk-table-wrapper">
+
+                        <table className="analytics-risk-table">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        MERCHANT
+                                    </th>
+
+                                    <th>
+                                        AMOUNT
+                                    </th>
+
+                                    <th>
+                                        RISK SCORE
+                                    </th>
+
+                                    <th>
+                                        FRAUD PROBABILITY
+                                    </th>
+
+                                    <th>
+                                        RISK LEVEL
+                                    </th>
+
+                                    <th>
+                                        STATUS
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {topRiskTransactions.map(
+                                    (transaction) => (
+
+                                        <tr
+                                            key={
+                                                transaction.transaction_id
+                                            }
+                                        >
+
+                                            <td>
+
+                                                <strong>
+                                                    {
+                                                        transaction.merchant ||
+                                                        "Unknown"
+                                                    }
+                                                </strong>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                ₹
+                                                {Number(
+                                                    transaction.amount ||
+                                                    0
+                                                ).toLocaleString(
+                                                    "en-IN"
+                                                )}
+
+                                            </td>
+
+
+                                            <td>
+
+                                                <strong>
+                                                    {
+                                                        transaction.risk_score ??
+                                                        0
+                                                    }
+                                                </strong>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                {(
+                                                    Number(
+                                                        transaction.fraud_probability ||
+                                                        0
+                                                    ) *
+                                                    100
+                                                ).toFixed(1)}
+                                                %
+
+                                            </td>
+
+
+                                            <td>
+
+                                                <span
+                                                    className={`analytics-risk-badge ${getRiskClass(
+                                                        transaction.risk_level
+                                                    )}`}
+                                                >
+
+                                                    {
+                                                        transaction.risk_level ||
+                                                        "low"
+                                                    }
+
+                                                </span>
+
+                                            </td>
+
+
+                                            <td>
+
+                                                <span className="analytics-status">
+
+                                                    {
+                                                        transaction.status ||
+                                                        "—"
+                                                    }
+
+                                                </span>
+
+                                            </td>
+
+                                        </tr>
+
+                                    )
+                                )}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                )}
+
+            </section>
+
+
         </div>
     );
 }

@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import {
     LayoutDashboard,
@@ -8,7 +8,8 @@ import {
     Bot,
     BarChart3,
     Settings,
-    ShieldAlert
+    ShieldAlert,
+    LogOut
 } from "lucide-react";
 
 const navigation = [
@@ -45,9 +46,30 @@ const navigation = [
 ];
 
 export default function Sidebar() {
+    const navigate = useNavigate();
+
+    function handleLogout() {
+        // Remove authentication tokens
+        localStorage.removeItem("token");
+        localStorage.removeItem("riskforge_token");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("authToken");
+
+        // Remove stored user information
+        localStorage.removeItem("user");
+        localStorage.removeItem("riskforge_user");
+
+        // Clear session storage
+        sessionStorage.clear();
+
+        // Redirect to login
+        navigate("/login");
+    }
+
     return (
         <aside className="sidebar">
 
+            {/* BRAND */}
             <div className="brand">
                 <div className="brand-icon">
                     <ShieldAlert size={21} />
@@ -64,6 +86,7 @@ export default function Sidebar() {
                 </div>
             </div>
 
+            {/* NAVIGATION */}
             <nav className="sidebar-nav">
 
                 <div className="nav-section">
@@ -78,7 +101,9 @@ export default function Sidebar() {
                             key={item.path}
                             to={item.path}
                             className={({ isActive }) =>
-                                `nav-item ${isActive ? "active" : ""}`
+                                `nav-item ${
+                                    isActive ? "active" : ""
+                                }`
                             }
                         >
                             <Icon size={18} />
@@ -94,7 +119,9 @@ export default function Sidebar() {
                 <NavLink
                     to="/settings"
                     className={({ isActive }) =>
-                        `nav-item ${isActive ? "active" : ""}`
+                        `nav-item ${
+                            isActive ? "active" : ""
+                        }`
                     }
                 >
                     <Settings size={18} />
@@ -103,15 +130,30 @@ export default function Sidebar() {
 
             </nav>
 
+            {/* FOOTER */}
             <div className="sidebar-footer">
+
                 <div className="system-status">
                     <span className="status-dot" />
-                    <span>All systems operational</span>
+                    <span>
+                        All systems operational
+                    </span>
                 </div>
 
                 <div className="version">
                     RiskForge v1.0
                 </div>
+
+                {/* LOGOUT */}
+                <button
+                    type="button"
+                    className="logout-button"
+                    onClick={handleLogout}
+                >
+                    <LogOut size={18} />
+                    <span>Logout</span>
+                </button>
+
             </div>
 
         </aside>

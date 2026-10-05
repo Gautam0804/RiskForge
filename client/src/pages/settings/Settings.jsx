@@ -3,7 +3,7 @@ import SettingsNav from "../../components/settings/SettingsNav";
 
 export default function Settings() {
     return (
-        <div>
+        <div className="settings-page">
             <PageHeader
                 title="Settings"
                 description="Manage RiskForge configuration, users and system preferences."

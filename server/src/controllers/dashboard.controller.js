@@ -1,57 +1,28 @@
-const db =
-    require("../config/database");
-
-const {
-    success
-} = require("../utils/apiResponse");
+const dashboardService = require("../services/dashboard/dashboard.service");
 
 async function overview(req, res) {
-    const result = await db.query(`
-        SELECT
-            COUNT(*)::int AS total_transactions,
+    try {
+        const userId = req.user.sub;
 
-            COUNT(*) FILTER (
-                WHERE risk_score >= 50
-            )::int AS suspicious_transactions,
+        console.log("DASHBOARD USER ID:", userId);
 
-            COUNT(*) FILTER (
-                WHERE risk_score >= 65
-            )::int AS high_risk_transactions,
+        const data = await dashboardService.getDashboardOverview(userId);
 
-            COUNT(*) FILTER (
-                WHERE status = 'fraud'
-            )::int AS confirmed_fraud,
+        console.log("DASHBOARD RESULT:", data);
 
-            ROUND(
-                AVG(risk_score),
-                2
-            ) AS average_risk_score
+        return res.status(200).json({
+            success: true,
+            message: "Dashboard data retrieved successfully",
+            data
+        });
+    } catch (error) {
+        console.error("Dashboard controller error:", error);
 
-        FROM transactions
-        WHERE created_at >= CURRENT_DATE
-    `);
-
-    const riskDistribution =
-        await db.query(`
-            SELECT
-                risk_level,
-                COUNT(*)::int AS count
-            FROM transactions
-            WHERE created_at >= CURRENT_DATE
-            GROUP BY risk_level
-            ORDER BY risk_level
-        `);
-
-    return success(
-        res,
-        {
-            overview: result.rows[0],
-
-            riskDistribution:
-                riskDistribution.rows
-        },
-        "Dashboard overview retrieved"
-    );
+        return res.status(500).json({
+            success: false,
+            message: "Failed to retrieve dashboard data"
+        });
+    }
 }
 
 module.exports = {

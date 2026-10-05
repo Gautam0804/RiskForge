@@ -18,11 +18,8 @@ async function startServer() {
             );
         });
     } catch (error) {
-        console.error(
-            "❌ Failed to start RiskForge:",
-            error.message
-        );
-
+        console.error("❌ Failed to start RiskForge:");
+        console.error(error);
         process.exit(1);
     }
 }

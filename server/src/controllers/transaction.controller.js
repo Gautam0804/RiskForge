@@ -1,88 +1,54 @@
-const transactionService =
-    require("../services/transaction.service");
-
-const {
-    success,
-    error
-} = require("../utils/apiResponse");
+const transactionService = require("../services/transaction.service");
 
 async function create(req, res) {
-    const transaction =
-        await transactionService.createTransaction(
-            req.validated.body
-        );
+    const result =
+        await transactionService.createTransaction({
+            userId: req.user.sub,
+            merchant: req.body.merchant,
+            amount: req.body.amount,
+            currency: req.body.currency,
+            deviceId: req.body.deviceId,
+            locationCity: req.body.locationCity,
+            transactionType: req.body.transactionType
+        });
 
-    return success(
-        res,
-        { transaction },
-        "Transaction processed",
-        201
-    );
+    return res.status(201).json({
+        success: true,
+        message: "Transaction processed successfully",
+        data: result
+    });
 }
 
 async function list(req, res) {
-    const page =
-        Math.max(
-            Number(req.query.page) || 1,
-            1
-        );
-
-    const limit =
-        Math.min(
-            Math.max(
-                Number(req.query.limit) || 20,
-                1
-            ),
-            100
-        );
-
-    const search =
-        req.query.search || null;
-
-    const offset =
-        (page - 1) * limit;
-
-    const transactions =
-        await transactionService.getTransactions({
-            limit,
-            offset,
-            search
+    const result =
+        await transactionService.listTransactions({
+            userId: req.user.sub,
+            page: req.query.page,
+            limit: req.query.limit,
+            search: req.query.search,
+            riskLevel: req.query.riskLevel,
+            status: req.query.status
         });
 
-    return success(
-        res,
-        {
-            transactions,
-            pagination: {
-                page,
-                limit,
-                hasMore:
-                    transactions.length === limit
-            }
-        },
-        "Transactions retrieved"
-    );
+    return res.status(200).json({
+        success: true,
+        message: "Transactions retrieved successfully",
+        data: result
+    });
 }
 
 async function getOne(req, res) {
-    const transaction =
-        await transactionService.getTransaction(
-            req.validated.params.transactionId
+    const result =
+        await transactionService.getTransactionById(
+            req.user.sub,
+            req.params.transactionId
         );
 
-    if (!transaction) {
-        return error(
-            res,
-            "Transaction not found",
-            404
-        );
-    }
-
-    return success(
-        res,
-        { transaction },
-        "Transaction retrieved"
-    );
+    return res.status(200).json({
+        success: true,
+        message: "Transaction retrieved successfully",
+        data: result
+    });
 }
 
 module.exports = {

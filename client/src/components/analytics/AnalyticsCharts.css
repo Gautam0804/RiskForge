@@ -1,0 +1,1048 @@
+/* =========================================================
+   ANALYTICS CHARTS — RISKFORGE ENTERPRISE SOC
+   ========================================================= */
+
+.analytics-container {
+    width: 100%;
+    min-width: 0;
+
+    padding-bottom: 36px;
+
+    color: #f1f5f9;
+
+    background:
+        radial-gradient(
+            circle at 8% 0%,
+            rgba(56, 189, 248, 0.045),
+            transparent 27%
+        ),
+        radial-gradient(
+            circle at 92% 5%,
+            rgba(99, 102, 241, 0.05),
+            transparent 25%
+        );
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.analytics-loading {
+    min-height: 320px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 11px;
+
+    color: #9aaac0;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.analytics-spinner {
+    width: 19px;
+    height: 19px;
+
+    flex-shrink: 0;
+
+    border: 2px solid #2b3b52;
+    border-top-color: #38bdf8;
+
+    border-right-color: #6366f1;
+
+    border-radius: 50%;
+
+    animation:
+        analytics-spin 0.8s linear infinite;
+
+    box-shadow:
+        0 0 14px rgba(56, 189, 248, 0.08);
+}
+
+@keyframes analytics-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.analytics-error {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    margin-bottom: 18px;
+    padding: 12px 14px;
+
+    border: 1px solid rgba(248, 113, 113, 0.28);
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(127, 29, 29, 0.17),
+            rgba(45, 20, 25, 0.12)
+        );
+
+    color: #ffaaa9;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.02);
+}
+
+
+/* =========================================================
+   METRICS
+   ========================================================= */
+
+.analytics-metrics {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr));
+
+    gap: 14px;
+
+    margin-bottom: 18px;
+}
+
+.analytics-metric-card {
+    position: relative;
+
+    min-height: 132px;
+
+    overflow: hidden;
+
+    padding: 18px;
+
+    border: 1px solid #29384f;
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(19, 31, 49, 0.98),
+            rgba(12, 21, 35, 0.98)
+        );
+
+    box-shadow:
+        0 12px 28px rgba(0, 0, 0, 0.13),
+        inset 0 1px 0 rgba(255, 255, 255, 0.025);
+
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.analytics-metric-card::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 18px;
+    right: 18px;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(56, 189, 248, 0.45),
+            transparent
+        );
+
+    opacity: 0.7;
+}
+
+.analytics-metric-card::after {
+    content: "";
+
+    position: absolute;
+
+    width: 100px;
+    height: 100px;
+
+    right: -45px;
+    bottom: -55px;
+
+    border-radius: 50%;
+
+    background:
+        rgba(99, 102, 241, 0.06);
+
+    filter: blur(18px);
+
+    pointer-events: none;
+}
+
+.analytics-metric-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #3a4e6b;
+
+    box-shadow:
+        0 17px 34px rgba(0, 0, 0, 0.18),
+        0 0 24px rgba(56, 189, 248, 0.035);
+}
+
+.analytics-metric-icon {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 39px;
+    height: 39px;
+
+    margin-bottom: 12px;
+
+    border: 1px solid transparent;
+    border-radius: 9px;
+}
+
+.analytics-metric-icon.blue {
+    border-color: rgba(96, 165, 250, 0.18);
+
+    background:
+        rgba(59, 130, 246, 0.12);
+
+    color: #67b7ff;
+}
+
+.analytics-metric-icon.red {
+    border-color: rgba(248, 113, 113, 0.18);
+
+    background:
+        rgba(239, 68, 68, 0.12);
+
+    color: #ff8585;
+}
+
+.analytics-metric-icon.orange {
+    border-color: rgba(251, 146, 60, 0.18);
+
+    background:
+        rgba(249, 115, 22, 0.12);
+
+    color: #ffab68;
+}
+
+.analytics-metric-icon.purple {
+    border-color: rgba(167, 139, 250, 0.18);
+
+    background:
+        rgba(139, 92, 246, 0.12);
+
+    color: #b7a5ff;
+}
+
+.analytics-metric-card > span {
+    position: relative;
+    z-index: 1;
+
+    display: block;
+
+    color: #8496ad;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+}
+
+.analytics-metric-card > strong {
+    position: relative;
+    z-index: 1;
+
+    display: block;
+
+    margin-top: 5px;
+
+    color: #f4f8fd;
+
+    font-size: 25px;
+    font-weight: 750;
+
+    letter-spacing: -0.02em;
+}
+
+.analytics-metric-card > small {
+    position: relative;
+    z-index: 1;
+
+    display: block;
+
+    margin-top: 5px;
+
+    color: #71839a;
+
+    font-size: 9px;
+}
+
+
+/* =========================================================
+   MAIN GRID
+   ========================================================= */
+
+.analytics-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.2fr)
+        minmax(0, 1fr);
+
+    gap: 18px;
+
+    margin-bottom: 18px;
+}
+
+.analytics-panel {
+    position: relative;
+
+    min-width: 0;
+
+    overflow: hidden;
+
+    padding: 20px;
+
+    border: 1px solid #29384f;
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(18, 30, 48, 0.98),
+            rgba(11, 20, 33, 0.98)
+        );
+
+    box-shadow:
+        0 14px 32px rgba(0, 0, 0, 0.13),
+        inset 0 1px 0 rgba(255, 255, 255, 0.025);
+}
+
+.analytics-panel::before {
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 20px;
+    right: 20px;
+
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(99, 102, 241, 0.45),
+            transparent
+        );
+}
+
+.analytics-panel-header {
+    display: flex;
+
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    margin-bottom: 20px;
+}
+
+.analytics-panel-header h2 {
+    margin: 0;
+
+    color: #edf3fa;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    letter-spacing: -0.01em;
+}
+
+.analytics-panel-header p {
+    margin: 5px 0 0;
+
+    color: #71839a;
+
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.analytics-panel-header > svg {
+    flex-shrink: 0;
+
+    color: #7189a5;
+
+    filter:
+        drop-shadow(
+            0 0 8px rgba(56, 189, 248, 0.08)
+        );
+}
+
+
+/* =========================================================
+   RISK DISTRIBUTION
+   ========================================================= */
+
+.analytics-risk-chart {
+    display: flex;
+    align-items: center;
+
+    gap: 38px;
+
+    min-height: 220px;
+}
+
+.analytics-donut {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 174px;
+    height: 174px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background:
+        conic-gradient(
+            #4ade80 0
+                calc(
+                    var(--low, 25%)
+                ),
+            #facc15
+                calc(
+                    var(--low, 25%)
+                )
+                calc(
+                    var(--medium, 50%)
+                ),
+            #fb923c
+                calc(
+                    var(--medium, 50%)
+                )
+                calc(
+                    var(--high, 75%)
+                ),
+            #f87171
+                calc(
+                    var(--high, 75%)
+                )
+                100%
+        );
+
+    box-shadow:
+        0 0 25px rgba(56, 189, 248, 0.035);
+}
+
+.analytics-donut::after {
+    content: "";
+
+    position: absolute;
+
+    inset: -4px;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(148, 163, 184, 0.07);
+
+    pointer-events: none;
+}
+
+.analytics-donut::before {
+    content: "";
+
+    position: absolute;
+
+    inset: 14px;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #142238 0%,
+            #0d1727 100%
+        );
+
+    box-shadow:
+        inset 0 0 25px rgba(0, 0, 0, 0.28);
+}
+
+.analytics-donut-inner {
+    position: relative;
+    z-index: 1;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.analytics-donut-inner strong {
+    color: #f5f8fc;
+
+    font-size: 29px;
+    font-weight: 750;
+
+    letter-spacing: -0.03em;
+}
+
+.analytics-donut-inner span {
+    margin-top: 3px;
+
+    color: #7c8da4;
+
+    font-size: 9px;
+    font-weight: 600;
+}
+
+.analytics-legend {
+    flex: 1;
+
+    min-width: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.analytics-legend-item {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        42px
+        48px;
+
+    align-items: center;
+
+    padding-bottom: 10px;
+
+    border-bottom:
+        1px solid
+        rgba(42, 58, 79, 0.7);
+}
+
+.analytics-legend-item:last-child {
+    border-bottom: none;
+}
+
+.analytics-legend-item > div {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    min-width: 0;
+}
+
+.analytics-legend-item span {
+    color: #b4c1d1;
+
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.analytics-legend-item strong {
+    color: #edf3f9;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    text-align: right;
+}
+
+.analytics-legend-item small {
+    color: #71839a;
+
+    font-size: 9px;
+
+    text-align: right;
+}
+
+.legend-dot {
+    width: 7px;
+    height: 7px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 8px currentColor;
+}
+
+.legend-dot.low {
+    background: #4ade80;
+    color: #4ade80;
+}
+
+.legend-dot.medium {
+    background: #facc15;
+    color: #facc15;
+}
+
+.legend-dot.high {
+    background: #fb923c;
+    color: #fb923c;
+}
+
+.legend-dot.critical {
+    background: #f87171;
+    color: #f87171;
+}
+
+
+/* =========================================================
+   TRANSACTION TYPES
+   ========================================================= */
+
+.transaction-type-list {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 17px;
+}
+
+.transaction-type-item {
+    min-width: 0;
+}
+
+.transaction-type-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 7px;
+}
+
+.transaction-type-header span {
+    min-width: 0;
+
+    overflow: hidden;
+
+    color: #b2bfd0;
+
+    font-size: 11px;
+    font-weight: 600;
+
+    text-transform: capitalize;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.transaction-type-header strong {
+    flex-shrink: 0;
+
+    color: #e5edf6;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.transaction-type-bar {
+    width: 100%;
+    height: 6px;
+
+    overflow: hidden;
+
+    border-radius: 99px;
+
+    background:
+        #1b293c;
+
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.transaction-type-bar div {
+    height: 100%;
+
+    min-width: 2px;
+
+    border-radius: inherit;
+
+    background:
+        linear-gradient(
+            90deg,
+            #38bdf8,
+            #6366f1,
+            #8b5cf6
+        );
+
+    box-shadow:
+        0 0 10px rgba(99, 102, 241, 0.14);
+
+    transition:
+        width 0.4s ease;
+}
+
+.transaction-type-item small {
+    display: block;
+
+    margin-top: 5px;
+
+    color: #6c7d93;
+
+    font-size: 8px;
+}
+
+
+/* =========================================================
+   TOP RISK TRANSACTIONS
+   ========================================================= */
+
+.analytics-risk-transactions {
+    padding-bottom: 9px;
+}
+
+.analytics-risk-table-wrapper {
+    width: 100%;
+
+    overflow-x: auto;
+
+    scrollbar-width: thin;
+    scrollbar-color: #354963 transparent;
+}
+
+.analytics-risk-table-wrapper::-webkit-scrollbar {
+    height: 6px;
+}
+
+.analytics-risk-table-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.analytics-risk-table-wrapper::-webkit-scrollbar-thumb {
+    border-radius: 99px;
+
+    background: #354963;
+}
+
+.analytics-risk-table {
+    width: 100%;
+
+    min-width: 720px;
+
+    border-collapse: collapse;
+}
+
+.analytics-risk-table th {
+    padding: 11px 10px;
+
+    border-bottom: 1px solid #2a3a50;
+
+    background:
+        rgba(18, 30, 47, 0.65);
+
+    color: #788ba3;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 0.07em;
+
+    text-align: left;
+
+    white-space: nowrap;
+}
+
+.analytics-risk-table td {
+    padding: 13px 10px;
+
+    border-bottom:
+        1px solid
+        rgba(42, 58, 79, 0.65);
+
+    color: #9aabc0;
+
+    font-size: 10px;
+}
+
+.analytics-risk-table tbody tr {
+    transition:
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.analytics-risk-table tbody tr:hover {
+    background:
+        linear-gradient(
+            90deg,
+            rgba(56, 189, 248, 0.04),
+            rgba(99, 102, 241, 0.055)
+        );
+
+    box-shadow:
+        inset 3px 0 0 rgba(56, 189, 248, 0.5);
+}
+
+.analytics-risk-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.analytics-risk-table td strong {
+    color: #e3ebf5;
+
+    font-weight: 650;
+}
+
+
+/* =========================================================
+   RISK BADGES
+   ========================================================= */
+
+.analytics-risk-badge {
+    display: inline-flex;
+
+    min-width: 58px;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 5px 8px;
+
+    border: 1px solid transparent;
+    border-radius: 999px;
+
+    font-size: 8px;
+    font-weight: 800;
+
+    letter-spacing: 0.04em;
+
+    text-transform: uppercase;
+}
+
+.analytics-risk-low {
+    border-color: rgba(74, 222, 128, 0.22);
+
+    background:
+        rgba(34, 197, 94, 0.11);
+
+    color: #9aefb7;
+}
+
+.analytics-risk-medium {
+    border-color: rgba(250, 204, 21, 0.22);
+
+    background:
+        rgba(234, 179, 8, 0.11);
+
+    color: #ffe38a;
+}
+
+.analytics-risk-high {
+    border-color: rgba(251, 146, 60, 0.24);
+
+    background:
+        rgba(249, 115, 22, 0.12);
+
+    color: #ffc095;
+}
+
+.analytics-risk-critical {
+    border-color: rgba(248, 113, 113, 0.25);
+
+    background:
+        rgba(239, 68, 68, 0.13);
+
+    color: #ffadad;
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.analytics-status {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    color: #94a5ba;
+
+    font-size: 9px;
+    font-weight: 600;
+
+    text-transform: capitalize;
+}
+
+.analytics-status::before {
+    content: "";
+
+    width: 6px;
+    height: 6px;
+
+    border-radius: 50%;
+
+    background: #64748b;
+
+    box-shadow:
+        0 0 6px rgba(100, 116, 139, 0.45);
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.analytics-empty {
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 150px;
+
+    padding: 20px;
+
+    color: #708198;
+
+    font-size: 11px;
+
+    text-align: center;
+}
+
+.analytics-empty svg {
+    margin-bottom: 9px;
+
+    color: #60758e;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1100px) {
+    .analytics-metrics {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+    }
+
+    .analytics-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 800px) {
+    .analytics-risk-chart {
+        gap: 28px;
+    }
+
+    .analytics-donut {
+        width: 158px;
+        height: 158px;
+    }
+
+    .analytics-panel {
+        padding: 17px;
+    }
+}
+
+@media (max-width: 700px) {
+    .analytics-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .analytics-panel {
+        padding: 15px;
+    }
+
+    .analytics-risk-chart {
+        flex-direction: column;
+        justify-content: center;
+
+        min-height: 0;
+
+        padding: 8px 0 5px;
+    }
+
+    .analytics-donut {
+        width: 150px;
+        height: 150px;
+    }
+
+    .analytics-panel-header {
+        margin-bottom: 16px;
+    }
+
+    .analytics-panel-header h2 {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .analytics-metric-card {
+        min-height: 120px;
+
+        padding: 15px;
+    }
+
+    .analytics-metric-card > strong {
+        font-size: 23px;
+    }
+
+    .analytics-legend-item {
+        grid-template-columns:
+            minmax(0, 1fr)
+            38px
+            42px;
+    }
+
+    .analytics-risk-table {
+        min-width: 680px;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .analytics-metric-card,
+    .analytics-risk-table tbody tr,
+    .transaction-type-bar div {
+        transition: none;
+    }
+
+    .analytics-spinner {
+        animation: none;
+    }
+}

@@ -2,50 +2,48 @@ const { z } = require("zod");
 
 const createTransactionSchema = z.object({
     body: z.object({
-        userId: z
-            .string()
-            .uuid()
-            .optional(),
-
         merchant: z
             .string()
-            .min(1)
-            .max(150),
+            .trim()
+            .min(2, "Merchant is required")
+            .max(120, "Merchant name is too long"),
 
         amount: z
-            .number()
-            .positive(),
+            .number({
+                required_error: "Amount is required",
+                invalid_type_error: "Amount must be a number"
+            })
+            .positive("Amount must be greater than 0")
+            .max(100000000, "Amount is too large"),
 
         currency: z
             .string()
-            .max(10)
-            .default("INR"),
+            .trim()
+            .length(3, "Currency must be a 3-letter code")
+            .transform((value) => value.toUpperCase()),
 
         deviceId: z
             .string()
-            .max(150)
-            .optional(),
-
-        ipAddress: z
-            .string()
+            .trim()
+            .min(2, "Device ID is required")
+            .max(150, "Device ID is too long")
             .optional(),
 
         locationCity: z
             .string()
-            .max(100)
-            .optional(),
-
-        latitude: z
-            .number()
-            .optional(),
-
-        longitude: z
-            .number()
+            .trim()
+            .min(2, "Location city is too short")
+            .max(100, "Location city is too long")
             .optional(),
 
         transactionType: z
-            .string()
-            .max(30)
+            .enum([
+                "purchase",
+                "transfer",
+                "withdrawal",
+                "payment",
+                "refund"
+            ])
             .default("purchase")
     }),
 
@@ -54,17 +52,19 @@ const createTransactionSchema = z.object({
     query: z.object({})
 });
 
-const transactionIdSchema = z.object({
-    body: z.object({}),
 
+const transactionIdSchema = z.object({
     params: z.object({
         transactionId: z
             .string()
-            .min(1)
+            .uuid("Invalid transaction ID")
     }),
+
+    body: z.object({}),
 
     query: z.object({})
 });
+
 
 module.exports = {
     createTransactionSchema,

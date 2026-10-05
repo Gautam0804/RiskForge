@@ -1,37 +1,21 @@
-export default function StatCard({
-    title,
-    value,
-    change,
-    icon: Icon,
-    tone = "default"
-}) {
+export default function StatCard({ title, value, icon: Icon }) {
     return (
-        <div className={`stat-card ${tone}`}>
-
+        <div className="stat-card">
             <div className="stat-card-top">
+                <span className="stat-card-title">{title}</span>
 
-                <span className="stat-title">
-                    {title}
-                </span>
-
-                {Icon && (
-                    <div className="stat-icon">
-                        <Icon size={18} />
-                    </div>
-                )}
-
-            </div>
-
-            <div className="stat-value">
-                {value}
-            </div>
-
-            {change && (
-                <div className="stat-change">
-                    {change}
+                <div className="stat-card-icon">
+                    {Icon && <Icon size={21} strokeWidth={1.8} />}
                 </div>
-            )}
+            </div>
 
+            <div className="stat-card-bottom">
+                <h2>{value}</h2>
+
+                <span className="stat-card-caption">
+                    Compared with recent activity
+                </span>
+            </div>
         </div>
     );
 }

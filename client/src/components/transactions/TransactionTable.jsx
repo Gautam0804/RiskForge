@@ -1,110 +1,122 @@
+import { useNavigate } from "react-router-dom";
+
 import RiskBadge from "../common/RiskBadge";
 import StatusBadge from "../common/StatusBadge";
 
-const transactions = [
-    {
-        id: "TXN-9283",
-        user: "Priya Sharma",
-        merchant: "Amazon",
-        amount: "₹88,200",
-        risk: 94,
-        status: "Blocked",
-        time: "11:42 AM"
-    },
-    {
-        id: "TXN-9282",
-        user: "Aman Verma",
-        merchant: "Flipkart",
-        amount: "₹1,200",
-        risk: 12,
-        status: "Approved",
-        time: "11:39 AM"
-    },
-    {
-        id: "TXN-9281",
-        user: "Rahul Singh",
-        merchant: "Apple Store",
-        amount: "₹12,400",
-        risk: 82,
-        status: "Review",
-        time: "11:35 AM"
-    },
-    {
-        id: "TXN-9280",
-        user: "Neha Gupta",
-        merchant: "Myntra",
-        amount: "₹4,800",
-        risk: 24,
-        status: "Approved",
-        time: "11:31 AM"
-    },
-    {
-        id: "TXN-9279",
-        user: "Arjun Mehta",
-        merchant: "Uber",
-        amount: "₹2,450",
-        risk: 37,
-        status: "Approved",
-        time: "11:28 AM"
-    }
-];
+function formatAmount(amount, currency = "INR") {
+    return `${currency} ${Number(amount || 0).toLocaleString("en-IN")}`;
+}
 
-export default function TransactionTable() {
+function formatDate(date) {
+    if (!date) return "-";
+
+    return new Date(date).toLocaleString("en-IN", {
+        dateStyle: "medium",
+        timeStyle: "short"
+    });
+}
+
+export default function TransactionTable({
+    transactions,
+    loading,
+    error
+}) {
+    const navigate = useNavigate();
+
+    if (loading) {
+        return (
+            <div className="table-state">
+                Loading transactions...
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="table-state table-error">
+                {error}
+            </div>
+        );
+    }
+
+    if (!transactions.length) {
+        return (
+            <div className="table-state">
+                No transactions found.
+            </div>
+        );
+    }
+
     return (
         <div className="transaction-table-wrapper">
-
             <table className="transaction-table">
-
                 <thead>
                     <tr>
                         <th>Transaction</th>
-                        <th>User</th>
                         <th>Merchant</th>
                         <th>Amount</th>
-                        <th>Risk</th>
+                        <th>Risk Score</th>
+                        <th>Risk Level</th>
                         <th>Status</th>
-                        <th>Time</th>
+                        <th>Created At</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     {transactions.map((transaction) => (
-                        <tr key={transaction.id}>
-
+                        <tr
+                            key={
+                                transaction.id ||
+                                transaction.transaction_id
+                            }
+                            className="transaction-row-clickable"
+                            onClick={() =>
+                                navigate(
+                                    `/transactions/${transaction.transaction_id}`
+                                )
+                            }
+                            title="View transaction details"
+                        >
                             <td className="transaction-id">
-                                {transaction.id}
+                                {transaction.transaction_id}
                             </td>
 
                             <td>
-                                {transaction.user}
-                            </td>
-
-                            <td>
-                                {transaction.merchant}
+                                {transaction.merchant || "-"}
                             </td>
 
                             <td className="amount-cell">
-                                {transaction.amount}
+                                {formatAmount(
+                                    transaction.amount,
+                                    transaction.currency
+                                )}
                             </td>
 
                             <td>
-                                <RiskBadge score={transaction.risk} />
+                                <span className="risk-score">
+                                    {transaction.risk_score ?? 0}
+                                </span>
                             </td>
 
                             <td>
-                                <StatusBadge status={transaction.status} />
+                                <RiskBadge
+                                    risk={transaction.risk_level}
+                                />
+                            </td>
+
+                            <td>
+                                <StatusBadge
+                                    status={transaction.status}
+                                />
                             </td>
 
                             <td className="time-cell">
-                                {transaction.time}
+                                {formatDate(transaction.created_at)}
                             </td>
-
                         </tr>
                     ))}
                 </tbody>
-
             </table>
-
         </div>
     );
 }
