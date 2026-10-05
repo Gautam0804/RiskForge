@@ -3,10 +3,13 @@ require("dotenv").config();
 const app = require("./src/app");
 const env = require("./src/config/env");
 const { checkDatabaseConnection } = require("./src/config/database");
+const { runMigrations } = require("./src/db/migrate");
 
 async function startServer() {
     try {
         await checkDatabaseConnection();
+
+        await runMigrations();
 
         app.listen(env.port, "0.0.0.0", () => {
             console.log(
