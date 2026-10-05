@@ -578,13 +578,6 @@ A production deployment can separate the services:
 👨‍💻 Author
 Gautam Kumar Yadav
 Full-Stack Developer | AI/ML Enthusiast
-Focused on:
-- Full-Stack Development
-- Backend Engineering
-- AI/ML
-- Data Structures & Algorithms
-- Cybersecurity
-- Production-oriented software development
 📄 License
 This project is intended primarily as a portfolio and learning project.
 Add an appropriate open-source license before distributing the project publicly.
