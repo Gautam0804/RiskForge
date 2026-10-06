@@ -760,4 +760,5 @@ An appropriate open-source license should be added before public distribution.
 RiskForge is built to demonstrate more than CRUD development.
 It focuses on:
 Architecture → Security → Data → APIs → ML → Investigation Workflows → Scalability
+
 Built with code, curiosity & chai ☕
