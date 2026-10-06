@@ -1,63 +1,276 @@
-# RiskForge
+# RiskForge — Real-Time AI Fraud Detection & Risk Intelligence Platform
 
-## Real-Time AI Fraud Detection & Risk Intelligence Platform
+> A production-oriented fraud detection and risk intelligence platform for analyzing transactions, identifying suspicious activity, and assisting analysts with AI-powered investigations.
 
-RiskForge is a production-oriented fraud detection and risk intelligence platform designed to identify suspicious financial transactions, calculate risk scores, generate alerts, and assist analysts with AI-powered investigation.
+RiskForge combines **React, Node.js, Express.js, PostgreSQL, Redis, Python, FastAPI, and Machine Learning** into a service-oriented fraud detection platform.
 
-The platform combines a modern web dashboard, REST API, PostgreSQL, Redis, and a separate Python-based machine learning service.
+The system is designed around a simple goal:
+
+**Turn transaction data into actionable risk intelligence.**
 
 ---
 
 ## 🚀 Overview
 
-RiskForge provides a centralized security and risk operations console for monitoring financial transactions and investigating potentially fraudulent activity.
+Financial fraud detection requires more than identifying suspicious transactions.
 
-### Core capabilities
+A useful fraud detection system needs to:
 
-- Real-time transaction monitoring
-- AI/ML-based fraud risk scoring
-- Risk classification
-- Automated fraud alerts
-- Investigation management
-- AI-assisted transaction investigation
-- Analytics and risk visualization
-- Role-based authentication
-- Secure password management
-- PostgreSQL-backed transaction storage
-- Redis integration
-- Separate Python ML microservice
-- Production-oriented frontend and backend architecture
+- Analyze transaction behavior
+- Assign meaningful risk scores
+- Identify potentially fraudulent activity
+- Prioritize high-risk transactions
+- Generate alerts
+- Support analyst investigations
+- Maintain secure access to sensitive operations
+
+RiskForge brings these capabilities together through a centralized security-operations-style dashboard.
+
+The platform separates the **frontend, backend, database, caching infrastructure, and ML service**, creating a foundation that can evolve toward a production-scale risk intelligence platform.
 
 ---
 
-## 🏗️ Architecture
+# 🏗️ Architecture
 
 ```text
-                         ┌──────────────────────┐
-                         │      React Client    │
-                         │      Vite + JS       │
-                         └──────────┬───────────┘
-                                    │
-                                    │ REST API
-                                    ▼
-                         ┌──────────────────────┐
-                         │   Node.js + Express  │
-                         │      RiskForge API   │
-                         └───────┬───────┬──────┘
-                                 │       │
-                    ┌────────────┘       └─────────────┐
-                    ▼                                  ▼
-          ┌──────────────────┐                ┌──────────────────┐
-          │   PostgreSQL     │                │      Redis       │
-          │ Transaction Data │                │ Cache / Services │
-          └──────────────────┘                └──────────────────┘
-                                 │
-                                 │ ML Requests
-                                 ▼
-                         ┌──────────────────────┐
-                         │   Python ML Service  │
-                         │ FastAPI + ML Models  │
-                         └──────────────────────┘
+                         RiskForge
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │    React Client      │
+                 │     Vite + JS        │
+                 └──────────┬──────────┘
+                            │
+                         REST API
+                            │
+                            ▼
+                 ┌─────────────────────┐
+                 │   Node.js + Express  │
+                 │      RiskForge API   │
+                 └────────┬──────┬─────┘
+                          │      │
+             ┌────────────┘      └─────────────┐
+             ▼                                ▼
+    ┌─────────────────┐              ┌─────────────────┐
+    │   PostgreSQL    │              │      Redis      │
+    │ Transaction Data│              │ Cache / Services│
+    └─────────────────┘              └─────────────────┘
+                          │
+                       ML Requests
+                          │
+                          ▼
+                 ┌─────────────────────┐
+                 │  Python ML Service  │
+                 │  FastAPI + Models   │
+                 └─────────────────────┘
+
+Service Responsibilities
+Service	Responsibility
+React	Dashboard, alerts, analytics and investigations
+Node.js / Express	REST APIs, authentication and business logic
+PostgreSQL	Persistent application and transaction data
+Redis	Caching and infrastructure services
+Python / FastAPI	ML inference and AI investigation
+Docker	Local infrastructure
+
+
+✨ Features
+🔐 Authentication & Authorization
+RiskForge implements secure authentication using JWT-based authentication.
+Current capabilities include:
+- User registration
+- Login
+- Protected routes
+- JWT authentication
+- Role-based authorization
+- Password hashing with bcrypt
+- Password change
+- Token versioning
+- Session invalidation
+- Active/inactive account validation
+- Authentication middleware
+📊 Risk Intelligence Dashboard
+The main dashboard provides an overview of the current transaction risk environment.
+It includes:
+- Total transaction statistics
+- Risk distribution
+- High-risk transactions
+- Critical transactions
+- Fraud alerts
+- Risk trends
+- Security monitoring information
+The interface is designed around an analyst/security-operations workflow, rather than a basic CRUD dashboard.
+💳 Transaction Monitoring
+RiskForge provides transaction-level monitoring and analysis.
+Transactions can contain:
+- Transaction ID
+- Amount
+- Currency
+- Transaction type
+- Location
+- Risk score
+- Fraud probability
+- Risk factors
+- Transaction status
+Transactions support:
+- Filtering
+- Pagination
+- Risk-based analysis
+- Investigation workflows
+🚨 Alert Center
+The Alert Center provides a centralized view of suspicious activity.
+Analysts can:
+- Review alerts
+- Filter alerts
+- Search alerts
+- View risk levels
+- Check alert status
+- Investigate suspicious transactions
+- Navigate to AI-assisted investigation
+Risk Levels
+LOW
+MEDIUM
+HIGH
+CRITICAL
+
+🔎 Investigation Management
+RiskForge provides an investigation workflow for suspicious transactions.
+An investigation can contain:
+- Transaction information
+- Risk score
+- Fraud probability
+- Risk factors
+- AI-generated summary
+- Investigation status
+- Analyst decision
+- Investigation timestamps
+Supported investigation actions include:
+Approve
+Review
+Block
+
+This creates a workflow from:
+Suspicious Transaction
+        ↓
+Alert
+        ↓
+Investigation
+        ↓
+AI Analysis
+        ↓
+Analyst Decision
+
+🤖 AI Investigator
+The AI Investigator allows analysts to investigate individual transactions using the separate ML service.
+The investigation interface provides:
+- Transaction risk analysis
+- Risk scoring
+- Fraud probability
+- Risk factors
+- AI-generated summary
+- Investigation recommendations
+- Risk factor visualization
+The ML service is separated from the Node.js API to maintain a clean service-oriented architecture.
+Node.js API
+     │
+     │ ML Request
+     ▼
+Python FastAPI
+     │
+     ▼
+ML Model / Analysis
+     │
+     ▼
+Risk Intelligence
+     │
+     ▼
+Node.js API
+     │
+     ▼
+Analyst Dashboard
+
+📈 Analytics
+The Analytics section provides a visual overview of transaction and risk behavior.
+Current analytics include:
+- Total transactions
+- High-risk transactions
+- Critical transactions
+- Average risk score
+- Risk distribution
+- Transaction type distribution
+- Highest-risk transactions
+- Risk/status tables
+⚙️ Settings
+RiskForge includes a centralized settings interface.
+Current sections include:
+- Profile
+- Users & Roles
+- Fraud Rules
+- Notifications
+- API Keys
+- Audit Logs
+- System Configuration
+The system configuration section provides service status information for:
+PostgreSQL
+Node.js API
+AI/ML Service
+Redis
+
+🔒 Security
+Security is a core part of the RiskForge architecture.
+Current security mechanisms include:
+- JWT authentication
+- Password hashing
+- Token versioning
+- Protected API routes
+- Role-based authorization
+- Helmet security headers
+- CORS configuration
+- Rate limiting
+- Input validation
+- Active account validation
+- Session invalidation after password changes
+- Environment-based configuration
+Secrets are kept outside the repository through environment variables.
+Never commit .env files, API keys, JWT secrets, database passwords, or other credentials to Git.
+
+🗄️ Database
+RiskForge uses PostgreSQL as its primary relational database.
+The database stores application information including:
+- Users
+- Transactions
+- Alerts
+- Investigations
+- Risk information
+- Authentication state
+Database migrations are maintained under:
+server/src/db/migrations/
+
+Development seed functionality is available through:
+server/src/db/seed.js
+
+⚡ Redis
+Redis is included as part of the RiskForge infrastructure.
+It provides a foundation for:
+- Caching
+- Temporary risk information
+- Session-related infrastructure
+- Rate limiting
+- Future event-processing functionality
+🐳 Docker
+RiskForge uses Docker Compose for local infrastructure.
+The development environment includes:
+PostgreSQL
+Redis
+
+Start infrastructure:
+docker compose -f docker/docker-compose.yml up -d
+
+Check containers:
+docker ps
+
+Stop infrastructure:
+docker compose -f docker/docker-compose.yml down
 
 🛠️ Tech Stack
 Frontend
@@ -73,13 +286,13 @@ Backend
 - Express.js
 - PostgreSQL
 - Redis
-- JWT Authentication
+- JWT
 - bcrypt
 - Helmet
 - CORS
 - Express Rate Limit
 - Morgan
-Machine Learning
+AI / Machine Learning
 - Python
 - FastAPI
 - Scikit-learn
@@ -88,8 +301,8 @@ Machine Learning
 Infrastructure
 - Docker
 - Docker Compose
-- PostgreSQL Docker container
-- Redis Docker container
+- PostgreSQL
+- Redis
 📁 Project Structure
 RiskForge/
 │
@@ -147,197 +360,16 @@ RiskForge/
 ├── .gitignore
 └── README.md
 
-✨ Features
-🔐 Authentication
-RiskForge includes secure authentication using JWT-based sessions.
-Features include:
-- User registration
-- Login
-- Protected routes
-- JWT authentication
-- Role-based authorization
-- Password hashing with bcrypt
-- Password change
-- Token versioning
-- Session invalidation
-- Account active/inactive validation
-- Authentication middleware
-📊 Dashboard
-The main RiskForge dashboard provides an overview of the current risk environment.
-It includes:
-- Transaction statistics
-- Risk distribution
-- High-risk transactions
-- Critical transactions
-- Fraud alerts
-- Risk trends
-- Security monitoring information
-The dashboard is designed as a security operations-style interface rather than a basic CRUD dashboard.
-💳 Transaction Monitoring
-RiskForge provides transaction-level monitoring and analysis.
-Each transaction can contain information such as:
-- Transaction ID
-- Amount
-- Currency
-- Transaction type
-- Location
-- Risk score
-- Fraud probability
-- Risk factors
-- Transaction status
-Transactions can be filtered and paginated for easier investigation.
-🚨 Alert Center
-The Alert Center provides a centralized location for suspicious activity.
-Analysts can:
-- Review security alerts
-- Filter alerts
-- Search alerts
-- View risk levels
-- Check alert status
-- Investigate suspicious transactions
-- Navigate directly to AI investigation
-Risk levels include:
-LOW
-MEDIUM
-HIGH
-CRITICAL
-
-🔎 Investigation Management
-RiskForge provides an investigation workflow for suspicious transactions.
-Investigations include:
-- Transaction information
-- Risk score
-- Fraud probability
-- Risk factors
-- AI-generated summary
-- Investigation status
-- Analyst decision
-- Investigation timestamps
-Supported investigation actions include:
-Approve
-Review
-Block
-
-🤖 AI Investigator
-The AI Investigator allows analysts to investigate individual transactions using the RiskForge ML service.
-The investigation interface provides:
-- Transaction risk analysis
-- Risk scoring
-- Fraud probability
-- Risk factors
-- AI summary
-- Investigation recommendations
-- Risk factor visualization
-The ML service is separated from the Node.js API to maintain a clean service-oriented architecture.
-📈 Analytics
-The Analytics section provides a visual overview of transaction and risk behavior.
-It includes:
-- Total transactions
-- High-risk transactions
-- Critical transactions
-- Average risk score
-- Risk distribution
-- Transaction type distribution
-- Highest-risk transactions
-- Risk/status tables
-⚙️ Settings
-RiskForge includes a centralized settings interface.
-Available sections include:
-- Profile
-- Users & Roles
-- Fraud Rules
-- Notifications
-- API Keys
-- Audit Logs
-- System Configuration
-The system configuration section provides service status information for:
-- PostgreSQL
-- Node.js API
-- AI/ML Service
-- Redis
-🔒 Security
-Security is a major part of the RiskForge architecture.
-Implemented security measures include:
-- JWT authentication
-- Password hashing
-- Token versioning
-- Protected API routes
-- Role-based authorization
-- Helmet security headers
-- CORS configuration
-- Rate limiting
-- Input validation
-- Active account validation
-- Session invalidation after password changes
-- Environment-based configuration
-- No secrets committed to Git
-Never commit .env files, API keys, JWT secrets, database passwords, or other credentials to the repository.
-
-🗄️ Database
-RiskForge uses PostgreSQL as its primary relational database.
-The database stores application information such as:
-- Users
-- Transactions
-- Alerts
-- Investigations
-- Risk information
-- Authentication state
-Database migrations are maintained inside:
-server/src/db/migrations/
-
-Database seed functionality is available through:
-server/src/db/seed.js
-
-⚡ Redis
-Redis is included as part of the RiskForge infrastructure.
-It can be used for:
-- Caching
-- Temporary risk information
-- Session-related infrastructure
-- Rate limiting
-- Future event-processing functionality
-🐳 Docker
-RiskForge uses Docker Compose for local infrastructure.
-The development environment includes:
-PostgreSQL
-Redis
-
-Start the infrastructure:
-docker compose -f docker/docker-compose.yml up -d
-
-Check running containers:
-docker ps
-
-Stop the infrastructure:
-docker compose -f docker/docker-compose.yml down
-
-⚙️ Environment Variables
-Create environment files locally.
-Backend
-Example:
-NODE_ENV=development
-PORT=5000
-
-DATABASE_URL=your_postgresql_connection_string
-
-JWT_SECRET=your_secure_jwt_secret
-JWT_EXPIRES_IN=1d
-
-REDIS_URL=redis://localhost:6379
-
-ML_SERVICE_URL=http://localhost:8000
-
-CORS_ORIGINS=http://localhost:5173
-
-Frontend
-Example:
-VITE_API_URL=http://localhost:5000/api
-
-ML Service
-Configure the Python service according to its local environment and model configuration.
-🚀 Installation
-1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/RiskForge.git
+⚙️ Local Development
+Prerequisites
+Install:
+- Node.js
+- npm
+- Python 3
+- Docker Desktop
+- Git
+1. Clone the Repository
+git clone https://github.com/Gautam0804/RiskForge.git
 cd RiskForge
 
 2. Start PostgreSQL and Redis
@@ -353,7 +385,22 @@ cd server
 Install dependencies:
 npm install
 
-Configure .env.
+Create a local .env file.
+Example:
+NODE_ENV=development
+PORT=5000
+
+DATABASE_URL=your_postgresql_connection_string
+
+JWT_SECRET=your_secure_jwt_secret
+JWT_EXPIRES_IN=1d
+
+REDIS_URL=redis://localhost:6379
+
+ML_SERVICE_URL=http://localhost:8000
+
+CORS_ORIGINS=http://localhost:5173
+
 Run database migrations according to the project's migration setup.
 Seed development data if required:
 node src/db/seed.js
@@ -361,11 +408,11 @@ node src/db/seed.js
 Start the backend:
 npm run dev
 
-The API will run on:
+Backend:
 http://localhost:5000
 
-Health endpoint:
-/api/health
+Health check:
+GET /api/health
 
 🤖 ML Service Setup
 Navigate to the ML service:
@@ -374,7 +421,7 @@ cd ml-service
 Create a virtual environment:
 python -m venv venv
 
-Activate it on Windows:
+Windows
 venv\Scripts\activate
 
 Install dependencies:
@@ -383,7 +430,7 @@ pip install -r requirements.txt
 Start FastAPI:
 uvicorn main:app --reload --port 8000
 
-The ML service will run on:
+ML service:
 http://localhost:8000
 
 🌐 Frontend Setup
@@ -399,32 +446,25 @@ VITE_API_URL=http://localhost:5000/api
 Start the development server:
 npm run dev
 
-The frontend will normally be available at:
+Frontend:
 http://localhost:5173
 
 🔄 Running the Complete System
 Start infrastructure:
 docker compose -f docker/docker-compose.yml up -d
 
-Start the ML service:
+Start ML service:
 uvicorn main:app --reload --port 8000
 
-Start the backend:
+Start backend:
 npm run dev
 
-Start the frontend:
+Start frontend:
 npm run dev
 
 Then open:
 http://localhost:5173
 
-🔑 Development Login
-For local development, the seeded administrator account is:
-Email: admin@riskforge.com
-Password: RiskForge@123
-
-Do not use development credentials in production.
-Change or remove seeded credentials before deploying the application to a production environment.
 🔌 API Overview
 Authentication
 POST /api/auth/register
@@ -455,14 +495,15 @@ Health
 GET /api/health
 
 🧠 Risk Scoring
-RiskForge classifies transactions based on their calculated risk level.
-A typical classification model is:
-0 ─────────────── 69   LOW / MEDIUM
-70 ────────────── 89   HIGH
-90 ───────────── 100   CRITICAL
+RiskForge classifies transactions according to their calculated risk level.
+The current risk classification follows:
+0 ───────────────── 69    LOW / MEDIUM
 
-Risk factors can contribute to the final transaction risk score.
-Examples of potential risk signals include:
+70 ──────────────── 89    HIGH
+
+90 ─────────────── 100    CRITICAL
+
+Risk signals can include:
 - Transaction amount
 - Transaction behavior
 - Location
@@ -470,8 +511,10 @@ Examples of potential risk signals include:
 - Historical patterns
 - Anomalous activity
 - Model-generated fraud probability
-🔄 Request Flow
-A typical transaction analysis flow:
+Risk scoring is part of the application's current development implementation and should not be interpreted as a production financial fraud model without proper validation against real-world datasets.
+
+🔄 Transaction Analysis Flow
+A typical transaction analysis follows:
 Transaction
      │
      ▼
@@ -498,86 +541,125 @@ Alert / Investigation
      ▼
 Analyst Dashboard
 
-🎯 Project Goals
-RiskForge was designed with a production-oriented mindset rather than as a simple college CRUD application.
-The main goals are:
-- Build a realistic fraud detection platform
-- Separate frontend, backend, and ML responsibilities
-- Implement secure authentication
-- Practice microservice architecture
-- Work with PostgreSQL and Redis
-- Build analyst-focused dashboards
-- Implement AI-assisted investigation
-- Deploy independently scalable services
-- Demonstrate full-stack engineering skills
-🛣️ Future Improvements
-Potential future improvements include:
-- Real-time transaction streaming
-- Kafka-based event processing
-- Advanced anomaly detection
-- Model retraining pipelines
-- Feature store integration
-- Explainable AI
-- Advanced RBAC
-- Multi-tenant support
-- Real-time WebSocket alerts
-- Automated case management
-- SIEM integrations
-- Email/Slack alert integrations
-- Model monitoring
-- ML drift detection
-- CI/CD pipelines
-- Cloud deployment
-- Comprehensive automated testing
+🎯 Engineering Goals
+RiskForge was built to explore realistic software engineering challenges around fraud detection and risk intelligence.
+The project focuses on:
+- Full-stack application architecture
+- Secure authentication
+- REST API design
+- PostgreSQL data modeling
+- Redis infrastructure
+- Service-oriented ML architecture
+- AI-assisted investigation workflows
+- Analyst-focused dashboards
+- Containerized development
+- Independent service deployment
 🧪 Testing
-Recommended testing layers:
+The project is being developed with a layered testing strategy.
 Frontend
-   │
-   ├── Component Tests
-   └── Integration Tests
+Component Tests
+       ↓
+Integration Tests
 
 Backend
-   │
-   ├── Unit Tests
-   ├── API Tests
-   └── Authentication Tests
+Unit Tests
+    ↓
+API Tests
+    ↓
+Authentication Tests
 
 ML Service
-   │
-   ├── Model Tests
-   ├── API Tests
-   └── Prediction Validation
+Model Tests
+     ↓
+API Tests
+     ↓
+Prediction Validation
 
+The testing layer will expand as the application moves toward production readiness.
+🛣️ Roadmap
+Short-Term
+- [ ] Comprehensive automated testing
+- [ ] Improved fraud scoring
+- [ ] Advanced anomaly detection
+- [ ] Improved investigation workflows
+- [ ] Better audit logging
+- [ ] Stronger RBAC
+Medium-Term
+- [ ] Real-time transaction streaming
+- [ ] WebSocket alerts
+- [ ] Kafka-based event processing
+- [ ] Explainable AI
+- [ ] Model retraining pipelines
+- [ ] Feature store integration
+- [ ] Model monitoring
+- [ ] ML drift detection
+Long-Term
+- [ ] Automated case management
+- [ ] SIEM integrations
+- [ ] Email / Slack notifications
+- [ ] Multi-tenant architecture
+- [ ] CI/CD pipelines
+- [ ] Cloud-native deployment
+- [ ] Advanced risk intelligence
 📦 Deployment Architecture
-A production deployment can separate the services:
-                   Internet
-                       │
-                       ▼
-                ┌─────────────┐
-                │   Frontend  │
-                │ React / CDN │
-                └──────┬──────┘
-                       │
-                       ▼
-                ┌─────────────┐
-                │ Node / API  │
-                └──────┬──────┘
-                       │
-            ┌──────────┴──────────┐
-            ▼                     ▼
-      ┌───────────┐        ┌────────────┐
-      │ PostgreSQL│        │   Redis    │
-      └───────────┘        └────────────┘
-                       │
-                       ▼
-                ┌─────────────┐
-                │ Python ML   │
-                │  Service    │
-                └─────────────┘
+A production deployment can separate the platform into independently scalable services:
+                         Internet
+                            │
+                            ▼
+                    ┌──────────────┐
+                    │   Frontend   │
+                    │ React / CDN  │
+                    └──────┬───────┘
+                           │
+                           ▼
+                    ┌──────────────┐
+                    │ Node / API   │
+                    └──────┬───────┘
+                           │
+              ┌────────────┴────────────┐
+              ▼                         ▼
+       ┌─────────────┐           ┌─────────────┐
+       │ PostgreSQL  │           │    Redis    │
+       └─────────────┘           └─────────────┘
+                           │
+                           ▼
+                    ┌──────────────┐
+                    │  Python ML   │
+                    │   Service    │
+                    └──────────────┘
 
+📌 Project Status
+Active Development
+RiskForge currently provides a working foundation for:
+Authentication
+      ↓
+Transaction Monitoring
+      ↓
+Risk Analysis
+      ↓
+Alerts
+      ↓
+Investigations
+      ↓
+AI-Assisted Analysis
+      ↓
+Analyst Dashboard
+
+The platform is being incrementally improved toward a more production-ready fraud detection and risk intelligence system.
 👨‍💻 Author
-Gautam Kumar Yadav
-Full-Stack Developer | AI/ML Enthusiast
+Gautam Yadav
+Software Engineer · Full-Stack Developer · AI/ML Enthusiast
+GitHub:
+https://github.com/Gautam0804
+⭐ Project Vision
+RiskForge aims to evolve into an intelligent risk operations platform capable of helping analysts:
+- Detect suspicious transactions
+- Prioritize high-risk activity
+- Investigate potential fraud
+- Understand risk factors
+- Make faster analyst decisions
+- Monitor transaction risk in real time
 📄 License
-This project is intended primarily as a portfolio and learning project.
+This project is currently developed as a portfolio project.
 Add an appropriate open-source license before distributing the project publicly.
+Built with code, curiosity & chai ☕
