@@ -1,0 +1,149 @@
+/* =========================================================
+   RISKFORGE APP LAYOUT
+   Matches current AppLayout.jsx
+   ========================================================= */
+
+.app-shell {
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+
+    background: #0a0f1c;
+
+    color: #eaf0fb;
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   MAIN SHELL
+   ========================================================= */
+
+.main-shell {
+    min-width: 0;
+    flex: 1;
+
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    background:
+        radial-gradient(
+            circle at 85% 0%,
+            rgba(91, 140, 255, 0.045),
+            transparent 30%
+        ),
+        #0a0f1c;
+}
+
+
+/* =========================================================
+   PAGE CONTAINER
+   ========================================================= */
+
+.page-container {
+    width: 100%;
+    min-width: 0;
+
+    flex: 1;
+
+    padding: 26px 28px 36px;
+
+    box-sizing: border-box;
+
+    overflow-x: hidden;
+}
+
+
+/* =========================================================
+   COMMON PAGE WIDTH
+   ========================================================= */
+
+.page-container > * {
+    width: 100%;
+    min-width: 0;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+    .page-container {
+        padding: 22px 22px 32px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .app-shell {
+        display: block;
+    }
+
+    .main-shell {
+        min-height: auto;
+    }
+
+    .page-container {
+        padding: 18px 16px 28px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+    .page-container {
+        padding: 14px 12px 24px;
+    }
+}
+
+
+/* =========================================================
+   GLOBAL SCROLLBAR
+   ========================================================= */
+
+.app-shell {
+    scrollbar-width: thin;
+    scrollbar-color: #29364e #0a0f1c;
+}
+
+.app-shell::-webkit-scrollbar {
+    width: 7px;
+}
+
+.app-shell::-webkit-scrollbar-track {
+    background: #0a0f1c;
+}
+
+.app-shell::-webkit-scrollbar-thumb {
+    background: #29364e;
+    border-radius: 10px;
+}
+
+.app-shell::-webkit-scrollbar-thumb:hover {
+    background: #364762;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .app-shell,
+    .main-shell,
+    .page-container {
+        scroll-behavior: auto;
+    }
+}

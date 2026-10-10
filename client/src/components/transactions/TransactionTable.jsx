@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import RiskBadge from "../common/RiskBadge";
 import StatusBadge from "../common/StatusBadge";
+import "./TransactionTable.css";
 
 function formatAmount(amount, currency = "INR") {
     return `${currency} ${Number(amount || 0).toLocaleString("en-IN")}`;

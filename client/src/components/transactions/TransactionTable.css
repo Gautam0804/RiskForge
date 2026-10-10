@@ -1,0 +1,388 @@
+/* =========================================================
+   RISKFORGE — TRANSACTION TABLE
+   Enterprise SOC Transaction Intelligence UI
+   ========================================================= */
+
+.transaction-table-wrapper {
+    width: 100%;
+    min-width: 0;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    border: 1px solid #243049;
+    border-radius: 12px;
+
+    background: #111827;
+
+    scrollbar-width: thin;
+    scrollbar-color: #33415c transparent;
+}
+
+.transaction-table-wrapper::-webkit-scrollbar {
+    height: 7px;
+}
+
+.transaction-table-wrapper::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.transaction-table-wrapper::-webkit-scrollbar-thumb {
+    background: #33415c;
+    border-radius: 999px;
+}
+
+.transaction-table {
+    width: 100%;
+    min-width: 900px;
+
+    border-collapse: collapse;
+    border-spacing: 0;
+
+    color: #c6d0e0;
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    font-size: 12px;
+}
+
+/* =========================================================
+   TABLE HEADER
+   ========================================================= */
+
+.transaction-table thead {
+    background: #151e2e;
+}
+
+.transaction-table th {
+    height: 45px;
+
+    padding: 0 16px;
+
+    border-bottom: 1px solid #243049;
+
+    color: #68758c;
+
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+
+    text-align: left;
+    white-space: nowrap;
+}
+
+/* =========================================================
+   TABLE BODY
+   ========================================================= */
+
+.transaction-table td {
+    height: 58px;
+
+    padding: 0 16px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+
+    color: #c6d0e0;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+.transaction-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* =========================================================
+   CLICKABLE ROW
+   ========================================================= */
+
+.transaction-row-clickable {
+    cursor: pointer;
+
+    transition:
+        background 150ms ease,
+        box-shadow 150ms ease;
+}
+
+.transaction-row-clickable:hover {
+    background: rgba(91, 140, 255, 0.045);
+}
+
+.transaction-row-clickable:active {
+    background: rgba(91, 140, 255, 0.075);
+}
+
+/* =========================================================
+   TRANSACTION ID
+   ========================================================= */
+
+.transaction-table .transaction-id {
+    max-width: 190px;
+
+    overflow: hidden;
+
+    color: #eaf0fb;
+
+    font-family:
+        "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace;
+
+    font-size: 11px;
+    font-weight: 650;
+
+    text-overflow: ellipsis;
+}
+
+/* =========================================================
+   MERCHANT
+   ========================================================= */
+
+.transaction-table td:nth-child(2) {
+    max-width: 190px;
+
+    overflow: hidden;
+
+    color: #c6d0e0;
+
+    font-weight: 600;
+
+    text-overflow: ellipsis;
+}
+
+/* =========================================================
+   AMOUNT
+   ========================================================= */
+
+.transaction-table .amount-cell {
+    color: #eaf0fb;
+    font-weight: 700;
+}
+
+/* =========================================================
+   RISK SCORE
+   ========================================================= */
+
+.risk-score {
+    min-width: 36px;
+    min-height: 26px;
+
+    padding: 5px 8px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(91, 140, 255, 0.18);
+    border-radius: 6px;
+
+    background: rgba(91, 140, 255, 0.07);
+
+    color: #9eb8ff;
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+/* =========================================================
+   RISK BADGE COMPATIBILITY
+   ========================================================= */
+
+.transaction-table .risk-badge {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* Low */
+
+.transaction-table .risk-badge.risk-low {
+    color: #ffffff !important;
+    background: #22c55e !important;
+    border-color: rgba(34, 197, 94, 0.75) !important;
+}
+
+/* Medium */
+
+.transaction-table .risk-badge.risk-medium {
+    color: #17130a !important;
+    background: #f2b705 !important;
+    border-color: rgba(242, 183, 5, 0.8) !important;
+}
+
+/* High */
+
+.transaction-table .risk-badge.risk-high {
+    color: #ffffff !important;
+    background: #ff8a3d !important;
+    border-color: rgba(255, 138, 61, 0.8) !important;
+}
+
+/* Critical */
+
+.transaction-table .risk-badge.risk-critical {
+    color: #ffffff !important;
+    background: #ff4d5e !important;
+    border-color: rgba(255, 77, 94, 0.8) !important;
+}
+
+/* =========================================================
+   STATUS BADGE COMPATIBILITY
+   ========================================================= */
+
+.transaction-table .status-badge {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* =========================================================
+   TIME
+   ========================================================= */
+
+.transaction-table .time-cell {
+    color: #8d9bb5;
+
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* =========================================================
+   TABLE STATES
+   ========================================================= */
+
+.table-state {
+    width: 100%;
+    min-height: 180px;
+
+    padding: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #243049;
+    border-radius: 12px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(17, 24, 39, 0.98),
+            rgba(15, 22, 36, 0.98)
+        );
+
+    color: #8d9bb5;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    text-align: center;
+}
+
+.table-state.table-error {
+    min-height: 130px;
+
+    border-color: rgba(255, 77, 94, 0.25);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 77, 94, 0.07),
+            rgba(17, 24, 39, 0.98)
+        );
+
+    color: #ff9da8;
+}
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+.transaction-row-clickable:focus-visible {
+    outline: 2px solid #5b8cff;
+    outline-offset: -2px;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+    .transaction-table {
+        min-width: 820px;
+    }
+
+    .transaction-table th,
+    .transaction-table td {
+        padding-left: 13px;
+        padding-right: 13px;
+    }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 640px) {
+    .transaction-table-wrapper {
+        border-radius: 10px;
+    }
+
+    .transaction-table {
+        min-width: 760px;
+    }
+
+    .transaction-table th {
+        height: 42px;
+
+        padding-left: 12px;
+        padding-right: 12px;
+
+        font-size: 8px;
+    }
+
+    .transaction-table td {
+        height: 55px;
+
+        padding-left: 12px;
+        padding-right: 12px;
+
+        font-size: 11px;
+    }
+
+    .transaction-table .transaction-id {
+        font-size: 10px;
+    }
+
+    .risk-score {
+        min-height: 24px;
+        padding: 4px 7px;
+        font-size: 10px;
+    }
+
+    .table-state {
+        min-height: 160px;
+        padding: 25px 18px;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .transaction-table *,
+    .transaction-table *::before,
+    .transaction-table *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

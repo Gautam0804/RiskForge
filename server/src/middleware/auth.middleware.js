@@ -1,9 +1,10 @@
+
 const { verifyToken } = require("../utils/jwt");
 const { error } = require("../utils/apiResponse");
+const userModel = require("../models/user.model");
 
-function authenticate(req, res, next) {
-    const authorization =
-        req.headers.authorization;
+async function authenticate(req, res, next) {
+    const authorization = req.headers.authorization;
 
     if (!authorization) {
         return error(
@@ -13,12 +14,12 @@ function authenticate(req, res, next) {
         );
     }
 
-    const [scheme, token] =
-        authorization.split(" ");
+    const [scheme, token, ...extra] = authorization.split(" ");
 
     if (
         scheme !== "Bearer" ||
-        !token
+        !token ||
+        extra.length > 0
     ) {
         return error(
             res,
@@ -27,18 +28,64 @@ function authenticate(req, res, next) {
         );
     }
 
+    let decoded;
+
     try {
-        const decoded = verifyToken(token);
-
-        req.user = decoded;
-
-        next();
+        decoded = verifyToken(token);
     } catch {
         return error(
             res,
             "Invalid or expired token",
             401
         );
+    }
+
+    // Validate required JWT claims.
+    if (
+        !decoded.sub ||
+        !Number.isInteger(decoded.tokenVersion)
+    ) {
+        return error(
+            res,
+            "Invalid or expired token",
+            401
+        );
+    }
+
+    try {
+        // Fetch the latest authentication state from PostgreSQL.
+        const user = await userModel.findAuthStateById(
+            decoded.sub
+        );
+
+        if (!user || !user.is_active) {
+            return error(
+                res,
+                "Invalid or expired token",
+                401
+            );
+        }
+
+        // Reject tokens issued before a password/security change.
+        if (user.token_version !== decoded.tokenVersion) {
+            return error(
+                res,
+                "Session expired. Please log in again.",
+                401
+            );
+        }
+
+        // Use the current database role, not a stale JWT role.
+        req.user = {
+            ...decoded,
+            id: user.id,
+            role: user.role
+        };
+
+        return next();
+    } catch (err) {
+        // Let Express handle database/server errors.
+        return next(err);
     }
 }
 
@@ -60,7 +107,7 @@ function authorize(...roles) {
             );
         }
 
-        next();
+        return next();
     };
 }
 

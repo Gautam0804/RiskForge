@@ -1,0 +1,492 @@
+/* =========================================================
+   RISKFORGE TOPBAR
+   Matches current Topbar.jsx
+   ========================================================= */
+
+.topbar {
+    height: 68px;
+    min-height: 68px;
+
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 26px;
+
+    background: rgba(10, 15, 28, 0.92);
+
+    border-bottom: 1px solid #243049;
+
+    color: #eaf0fb;
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    position: sticky;
+    top: 0;
+
+    z-index: 90;
+}
+
+
+/* =========================================================
+   SEARCH
+   ========================================================= */
+
+.topbar-search {
+    width: min(430px, 42vw);
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 0 11px;
+
+    border: 1px solid #243049;
+    border-radius: 9px;
+
+    background: #111827;
+
+    color: #6f7d94;
+
+    transition:
+        border-color 160ms ease,
+        background 160ms ease,
+        box-shadow 160ms ease;
+}
+
+.topbar-search:focus-within {
+    border-color: rgba(91, 140, 255, 0.55);
+
+    background: #131c2c;
+
+    box-shadow:
+        0 0 0 3px rgba(91, 140, 255, 0.08);
+}
+
+.topbar-search svg {
+    flex-shrink: 0;
+
+    color: #71809a;
+}
+
+
+/* =========================================================
+   SEARCH INPUT
+   ========================================================= */
+
+.topbar-search input {
+    width: 100%;
+    min-width: 0;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #eaf0fb;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.topbar-search input::placeholder {
+    color: #65738a;
+}
+
+.topbar-search input:focus::placeholder {
+    color: #74829a;
+}
+
+
+/* =========================================================
+   SEARCH SHORTCUT
+   ========================================================= */
+
+.search-shortcut {
+    flex-shrink: 0;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 38px;
+    height: 23px;
+
+    padding: 0 7px;
+
+    border: 1px solid #2b3850;
+    border-radius: 5px;
+
+    background: #172033;
+
+    color: #71809a;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 0.3px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================================
+   TOPBAR ACTIONS
+   ========================================================= */
+
+.topbar-actions {
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+
+/* =========================================================
+   ICON BUTTON
+   ========================================================= */
+
+.icon-button {
+    position: relative;
+
+    width: 38px;
+    height: 38px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid transparent;
+    border-radius: 8px;
+
+    background: transparent;
+
+    color: #8290a6;
+
+    cursor: pointer;
+
+    transition:
+        color 160ms ease,
+        background 160ms ease,
+        border-color 160ms ease,
+        transform 160ms ease;
+}
+
+.icon-button:hover {
+    color: #eaf0fb;
+
+    background: #151e2e;
+
+    border-color: #243049;
+
+    transform: translateY(-1px);
+}
+
+.icon-button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   NOTIFICATION DOT
+   ========================================================= */
+
+.notification-dot {
+    position: absolute;
+
+    top: 7px;
+    right: 7px;
+
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #ff6a3d;
+
+    border: 2px solid #0a0f1c;
+
+    box-shadow:
+        0 0 8px rgba(255, 106, 61, 0.65);
+}
+
+
+/* =========================================================
+   DIVIDER
+   ========================================================= */
+
+.topbar-divider {
+    width: 1px;
+    height: 28px;
+
+    background: #243049;
+}
+
+
+/* =========================================================
+   PROFILE BUTTON
+   ========================================================= */
+
+.profile-button {
+    min-height: 42px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 4px 7px 4px 5px;
+
+    border: 1px solid transparent;
+    border-radius: 9px;
+
+    background: transparent;
+
+    color: #eaf0fb;
+
+    font-family: inherit;
+
+    cursor: pointer;
+
+    transition:
+        background 160ms ease,
+        border-color 160ms ease;
+}
+
+.profile-button:hover {
+    background: #151e2e;
+
+    border-color: #243049;
+}
+
+.profile-button > svg {
+    color: #65738a;
+
+    transition: transform 160ms ease;
+}
+
+.profile-button:hover > svg {
+    transform: translateY(2px);
+}
+
+
+/* =========================================================
+   AVATAR
+   ========================================================= */
+
+.avatar {
+    width: 34px;
+    height: 34px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 9px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #5b8cff 0%,
+            #7c5cff 100%
+        );
+
+    color: #ffffff;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 0.3px;
+
+    box-shadow:
+        0 5px 15px rgba(91, 140, 255, 0.18),
+        inset 0 1px 0 rgba(255, 255, 255, 0.16);
+}
+
+
+/* =========================================================
+   PROFILE INFO
+   ========================================================= */
+
+.profile-info {
+    min-width: 92px;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 2px;
+}
+
+.profile-info strong {
+    color: #eaf0fb;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+.profile-info span {
+    color: #68758c;
+
+    font-size: 9px;
+    font-weight: 600;
+
+    line-height: 1.2;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+.icon-button:focus-visible,
+.profile-button:focus-visible {
+    outline: 2px solid #5b8cff;
+    outline-offset: 2px;
+}
+
+.topbar-search input:focus-visible {
+    outline: none;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+    .topbar {
+        padding: 0 18px;
+    }
+
+    .topbar-search {
+        width: min(350px, 45vw);
+    }
+
+    .profile-info {
+        min-width: auto;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+    .topbar {
+        height: 62px;
+        min-height: 62px;
+
+        padding: 0 12px;
+    }
+
+    .topbar-search {
+        width: auto;
+        flex: 1;
+
+        max-width: none;
+        height: 38px;
+    }
+
+    .search-shortcut {
+        display: none;
+    }
+
+    .topbar-actions {
+        gap: 7px;
+        margin-left: 10px;
+    }
+
+    .topbar-divider {
+        display: none;
+    }
+
+    .profile-info {
+        display: none;
+    }
+
+    .profile-button {
+        padding: 3px;
+    }
+
+    .profile-button > svg {
+        display: none;
+    }
+
+    .avatar {
+        width: 34px;
+        height: 34px;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 430px) {
+    .topbar {
+        padding: 0 9px;
+    }
+
+    .topbar-search {
+        height: 36px;
+
+        padding-left: 9px;
+        padding-right: 9px;
+    }
+
+    .topbar-search input {
+        font-size: 11px;
+    }
+
+    .topbar-search input::placeholder {
+        font-size: 10px;
+    }
+
+    .icon-button {
+        width: 34px;
+        height: 34px;
+    }
+
+    .avatar {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .topbar-search,
+    .icon-button,
+    .profile-button,
+    .profile-button > svg {
+        transition: none;
+    }
+}

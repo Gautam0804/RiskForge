@@ -4,7 +4,7 @@ import {
     Download,
     X
 } from "lucide-react";
-
+import "./TransactionFilters.css"
 export default function TransactionFilters({
     search,
     setSearch,

@@ -1,276 +1,947 @@
 /* =========================================================
-   RISKFORGE — PREMIUM TRANSACTION PAGINATION
-   Enterprise / SOC command-center style
+   RISKFORGE — TRANSACTIONS
+   Production SOC / Fraud Intelligence UI
+   Complete final stylesheet
    ========================================================= */
 
-.transaction-pagination {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
+.transactions-page {
+    --tx-bg: #080c14;
+    --tx-surface: #0f141e;
+    --tx-surface-2: #131a26;
+    --tx-surface-3: #172131;
 
-    width: 100%;
-    margin-top: 14px;
-    padding: 10px 12px;
+    --tx-border: #202b3d;
+    --tx-border-soft: rgba(255, 255, 255, 0.065);
 
-    border: 1px solid rgba(148, 163, 184, 0.14);
+    --tx-text: #f1f5fb;
+    --tx-text-soft: #d7dfec;
+    --tx-muted: #8290a7;
+    --tx-muted-2: #637087;
+
+    --tx-blue: #5b8cff;
+    --tx-blue-soft: rgba(91, 140, 255, 0.12);
+
+    --tx-green: #22c55e;
+    --tx-green-soft: rgba(34, 197, 94, 0.12);
+
+    --tx-teal: #2bc6b1;
+    --tx-teal-soft: rgba(43, 198, 177, 0.12);
+
+    --tx-yellow: #f2b705;
+    --tx-yellow-soft: rgba(242, 183, 5, 0.12);
+
+    --tx-orange: #ff8a3d;
+    --tx-orange-soft: rgba(255, 138, 61, 0.12);
+
+    --tx-red: #ff4d5e;
+    --tx-red-soft: rgba(255, 77, 94, 0.12);
+
+    min-height: 100%;
+
+    padding: 28px;
+
+    color: var(--tx-text);
+
+    background:
+        radial-gradient(
+            circle at 90% 0%,
+            rgba(91, 140, 255, 0.055),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 0% 20%,
+            rgba(255, 106, 61, 0.035),
+            transparent 26%
+        ),
+        var(--tx-bg);
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    font-variant-numeric: tabular-nums;
+}
+
+
+/* =========================================================
+   PAGE HEADER
+   ========================================================= */
+
+.transactions-page .page-header {
+    margin-bottom: 22px;
+}
+
+.transactions-page .page-header h1,
+.transactions-page .page-header h2 {
+    color: var(--tx-text) !important;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+}
+
+.transactions-page .page-header p {
+    color: var(--tx-muted) !important;
+}
+
+
+/* =========================================================
+   GENERAL TEXT VISIBILITY
+   ========================================================= */
+
+.transactions-page,
+.transactions-page *,
+.transactions-page strong,
+.transactions-page span,
+.transactions-page small,
+.transactions-page td,
+.transactions-page th {
+    opacity: 1;
+    visibility: visible;
+}
+
+.transactions-page strong {
+    color: var(--tx-text-soft);
+}
+
+.transactions-page small {
+    color: var(--tx-muted);
+}
+
+
+/* =========================================================
+   MAIN TRANSACTIONS CARD
+   ========================================================= */
+
+.transactions-page .transaction-card,
+.transactions-page .transactions-card,
+.transactions-page .dashboard-panel,
+.transactions-page .panel,
+.transactions-page .card {
+    border: 1px solid var(--tx-border);
     border-radius: 12px;
 
     background:
         linear-gradient(
-            135deg,
-            rgba(18, 29, 46, 0.96),
-            rgba(13, 22, 36, 0.98)
-        );
+            145deg,
+            rgba(255, 255, 255, 0.012),
+            transparent 60%
+        ),
+        var(--tx-surface);
 
     box-shadow:
-        0 8px 24px rgba(0, 0, 0, 0.16),
-        inset 0 1px 0 rgba(255, 255, 255, 0.035);
-
-    color: #94a3b8;
-
-    position: relative;
-    overflow: hidden;
-}
-
-/* subtle top highlight */
-.transaction-pagination::before {
-    content: "";
-
-    position: absolute;
-    top: 0;
-    left: 12%;
-    right: 12%;
-
-    height: 1px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(56, 189, 248, 0.45),
-            rgba(129, 140, 248, 0.45),
-            transparent
-        );
-
-    opacity: 0.7;
+        0 14px 32px rgba(0, 0, 0, 0.16);
 }
 
 
 /* =========================================================
-   LEFT / RIGHT NAVIGATION BUTTONS
+   TOOLBAR / FILTER AREA
    ========================================================= */
 
-.transaction-pagination > button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px;
-
-    min-width: 86px;
-    height: 34px;
-
-    padding: 0 12px;
-
-    border: 1px solid rgba(148, 163, 184, 0.16);
-    border-radius: 8px;
-
-    background:
-        linear-gradient(
-            180deg,
-            #172338,
-            #111b2b
-        );
-
-    color: #b8c5d6;
-
-    font-family: inherit;
-    font-size: 11px;
-    font-weight: 650;
-    letter-spacing: 0.01em;
-
-    cursor: pointer;
-
-    transition:
-        transform 0.18s ease,
-        background 0.18s ease,
-        color 0.18s ease,
-        border-color 0.18s ease,
-        box-shadow 0.18s ease;
-}
-
-
-/* hover */
-.transaction-pagination > button:hover:not(:disabled) {
-    transform: translateY(-1px);
-
-    border-color: rgba(56, 189, 248, 0.42);
-
-    background:
-        linear-gradient(
-            180deg,
-            #1b2b43,
-            #142238
-        );
-
-    color: #f1f5f9;
-
-    box-shadow:
-        0 5px 16px rgba(0, 0, 0, 0.22),
-        0 0 0 1px rgba(56, 189, 248, 0.05);
-}
-
-
-/* active click */
-.transaction-pagination > button:active:not(:disabled) {
-    transform: translateY(0);
-}
-
-
-/* disabled */
-.transaction-pagination > button:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-
-    background: #101827;
-    color: #64748b;
-
-    box-shadow: none;
-}
-
-
-/* =========================================================
-   PAGE NUMBERS
-   ========================================================= */
-
-.pagination-pages {
+.transactions-page .transaction-toolbar,
+.transactions-page .transactions-toolbar,
+.transactions-page .filters,
+.transactions-page .transaction-filters,
+.transactions-page .filters-bar {
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 10px;
 
-    gap: 5px;
+    padding: 14px;
 
-    padding: 3px;
+    border: 1px solid var(--tx-border);
+    border-radius: 11px;
 
-    border: 1px solid rgba(148, 163, 184, 0.08);
-    border-radius: 9px;
-
-    background: rgba(7, 14, 25, 0.42);
+    background: rgba(15, 20, 30, 0.9);
 }
 
 
-/* page button */
-.pagination-pages button {
+/* =========================================================
+   SEARCH INPUT
+   ========================================================= */
+
+.transactions-page .transaction-search,
+.transactions-page .search-wrapper,
+.transactions-page .search-box {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+
+    flex: 1;
+    min-width: 0;
+}
+
+.transactions-page .transaction-search svg,
+.transactions-page .search-wrapper svg,
+.transactions-page .search-box svg {
+    position: absolute;
+    left: 12px;
+
+    color: var(--tx-muted-2);
+
+    pointer-events: none;
+}
+
+.transactions-page input[type="text"],
+.transactions-page input[type="search"] {
+    width: 100%;
+    min-height: 39px;
+
+    padding: 0 13px 0 38px;
+
+    border: 1px solid var(--tx-border);
+    border-radius: 8px;
+
+    outline: none;
+
+    color: #f1f5fb !important;
+    background: #0c121d !important;
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    font-size: 11px;
+    font-weight: 500;
+
+    opacity: 1 !important;
+
+    transition:
+        border-color 160ms ease,
+        box-shadow 160ms ease,
+        background 160ms ease;
+}
+
+.transactions-page input[type="text"]::placeholder,
+.transactions-page input[type="search"]::placeholder {
+    color: #718099 !important;
+    opacity: 1 !important;
+}
+
+.transactions-page input[type="text"]:hover,
+.transactions-page input[type="search"]:hover {
+    background: #101722 !important;
+}
+
+.transactions-page input[type="text"]:focus,
+.transactions-page input[type="search"]:focus {
+    border-color: rgba(91, 140, 255, 0.55);
+
+    box-shadow:
+        0 0 0 3px rgba(91, 140, 255, 0.08);
+}
+
+
+/* =========================================================
+   SELECT / FILTER
+   ========================================================= */
+
+.transactions-page select {
+    min-height: 39px;
+
+    padding: 0 30px 0 12px;
+
+    border: 1px solid var(--tx-border);
+    border-radius: 8px;
+
+    outline: none;
+
+    color: #eaf0fb !important;
+    background-color: #0c121d !important;
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    opacity: 1 !important;
+
+    cursor: pointer;
+}
+
+.transactions-page select:focus {
+    border-color: rgba(91, 140, 255, 0.55);
+
+    box-shadow:
+        0 0 0 3px rgba(91, 140, 255, 0.08);
+}
+
+.transactions-page select option {
+    color: #eaf0fb !important;
+    background: #111827 !important;
+}
+
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.transactions-page button {
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    opacity: 1;
+}
+
+.transactions-page button:focus-visible,
+.transactions-page select:focus-visible,
+.transactions-page input:focus-visible {
+    outline: 2px solid rgba(91, 140, 255, 0.75);
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   TABLE WRAPPER
+   ========================================================= */
+
+.transactions-page .transaction-table-wrapper,
+.transactions-page .transactions-table-wrapper,
+.transactions-page .table-wrapper,
+.transactions-page .table-container {
+    width: 100%;
+    overflow-x: auto;
+
+    border: 1px solid var(--tx-border);
+    border-radius: 11px;
+
+    background: var(--tx-surface);
+
+    scrollbar-width: thin;
+}
+
+
+/* =========================================================
+   MAIN TABLE
+   ========================================================= */
+
+.transactions-page table,
+.transactions-page .dashboard-table,
+.transactions-page .transaction-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    color: var(--tx-text-soft);
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    font-size: 11px;
+}
+
+.transactions-page thead {
+    background: #0d1420;
+}
+
+.transactions-page th {
+    height: 42px;
+
+    padding: 0 14px;
+
+    border-bottom: 1px solid var(--tx-border);
+
+    color: #718099 !important;
+
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 0.08em;
+
+    text-align: left;
+
+    white-space: nowrap;
+
+    opacity: 1 !important;
+}
+
+.transactions-page td {
+    height: 61px;
+
+    padding: 10px 14px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+
+    color: #d7dfec !important;
+
+    font-size: 11px;
+    font-weight: 500;
+
+    opacity: 1 !important;
+
+    white-space: nowrap;
+}
+
+.transactions-page tbody tr {
+    background: #0d121b;
+
+    transition:
+        background 150ms ease,
+        border-color 150ms ease;
+}
+
+.transactions-page tbody tr:hover {
+    background: #111925;
+}
+
+.transactions-page tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+
+/* =========================================================
+   TRANSACTION ID
+   ========================================================= */
+
+.transactions-page td:first-child {
+    color: #dbe5f3 !important;
+    font-weight: 600;
+}
+
+.transactions-page .transaction-id,
+.transactions-page .transaction-id-cell {
+    color: #dbe5f3 !important;
+
+    font-weight: 600;
+
+    font-family:
+        "SFMono-Regular",
+        Consolas,
+        "Liberation Mono",
+        monospace;
+}
+
+
+/* =========================================================
+   MERCHANT
+   ========================================================= */
+
+.transactions-page .merchant-cell,
+.transactions-page .merchant-name {
+    color: #dce5f2 !important;
+}
+
+.transactions-page .merchant-cell strong,
+.transactions-page .merchant-name strong {
+    color: #f1f5fb !important;
+    font-weight: 700 !important;
+}
+
+
+/* =========================================================
+   AMOUNT
+   ========================================================= */
+
+.transactions-page .amount,
+.transactions-page .amount-cell {
+    color: #f1f5fb !important;
+    font-weight: 750 !important;
+}
+
+
+/* =========================================================
+   RISK SCORE
+   ========================================================= */
+
+.transactions-page .risk-score,
+.transactions-page .risk-score-cell,
+.transactions-page .score-cell {
+    color: #f1f5fb !important;
+    font-weight: 750 !important;
+}
+
+.transactions-page .risk-score-value,
+.transactions-page .score-value {
+    display: inline-flex;
+    align-items: center;
+
+    min-height: 28px;
+    padding: 0 8px;
+
+    border-radius: 7px;
+
+    color: #f1f5fb !important;
+    background: #1d2a40 !important;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   RISK LEVEL — CRITICAL FIX
+   ========================================================= */
+
+/*
+   These rules intentionally use !important.
+   They prevent global styles / inherited opacity /
+   low-contrast component styles from hiding Low / High text.
+*/
+
+.transactions-page .risk-badge,
+.transactions-page .risk-level,
+.transactions-page .risk-chip,
+.transactions-page .risk-label {
+    display: inline-flex !important;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 64px;
+    min-height: 31px;
+
+    padding: 0 13px;
+
+    border: 1px solid transparent;
+    border-radius: 999px;
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif !important;
+
+    font-size: 11px !important;
+    font-weight: 800 !important;
+
+    line-height: 1 !important;
+
+    letter-spacing: 0.01em;
+
+    text-align: center;
+
+    white-space: nowrap;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+
+    text-shadow: none !important;
+}
+
+
+/* ---------------------------------------------------------
+   LOW
+   --------------------------------------------------------- */
+
+.transactions-page .risk-badge.risk-low,
+.transactions-page .risk-level.risk-low,
+.transactions-page .risk-chip.risk-low,
+.transactions-page .risk-label.risk-low,
+.transactions-page .risk-low {
+    color: #ffffff !important;
+
+    background: #22c55e !important;
+
+    border-color: #22c55e !important;
+}
+
+.transactions-page .risk-badge.risk-low *,
+.transactions-page .risk-level.risk-low *,
+.transactions-page .risk-chip.risk-low *,
+.transactions-page .risk-label.risk-low *,
+.transactions-page .risk-low * {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+
+/* ---------------------------------------------------------
+   MEDIUM
+   --------------------------------------------------------- */
+
+.transactions-page .risk-badge.risk-medium,
+.transactions-page .risk-level.risk-medium,
+.transactions-page .risk-chip.risk-medium,
+.transactions-page .risk-label.risk-medium,
+.transactions-page .risk-medium {
+    color: #17200a !important;
+
+    background: #f2b705 !important;
+
+    border-color: #f2b705 !important;
+}
+
+.transactions-page .risk-badge.risk-medium *,
+.transactions-page .risk-level.risk-medium *,
+.transactions-page .risk-chip.risk-medium *,
+.transactions-page .risk-label.risk-medium *,
+.transactions-page .risk-medium * {
+    color: #17200a !important;
+    opacity: 1 !important;
+}
+
+
+/* ---------------------------------------------------------
+   HIGH
+   --------------------------------------------------------- */
+
+.transactions-page .risk-badge.risk-high,
+.transactions-page .risk-level.risk-high,
+.transactions-page .risk-chip.risk-high,
+.transactions-page .risk-label.risk-high,
+.transactions-page .risk-high {
+    color: #ffffff !important;
+
+    background: #ff8a3d !important;
+
+    border-color: #ff8a3d !important;
+}
+
+.transactions-page .risk-badge.risk-high *,
+.transactions-page .risk-level.risk-high *,
+.transactions-page .risk-chip.risk-high *,
+.transactions-page .risk-label.risk-high *,
+.transactions-page .risk-high * {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+
+/* ---------------------------------------------------------
+   CRITICAL
+   --------------------------------------------------------- */
+
+.transactions-page .risk-badge.risk-critical,
+.transactions-page .risk-level.risk-critical,
+.transactions-page .risk-chip.risk-critical,
+.transactions-page .risk-label.risk-critical,
+.transactions-page .risk-critical {
+    color: #ffffff !important;
+
+    background: #ff4d5e !important;
+
+    border-color: #ff4d5e !important;
+}
+
+.transactions-page .risk-badge.risk-critical *,
+.transactions-page .risk-level.risk-critical *,
+.transactions-page .risk-chip.risk-critical *,
+.transactions-page .risk-label.risk-critical *,
+.transactions-page .risk-critical * {
+    color: #ffffff !important;
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   RISK BADGE DOT
+   ========================================================= */
+
+.transactions-page .risk-badge-dot {
+    display: inline-block;
+
+    width: 6px;
+    height: 6px;
+
+    margin-right: 6px;
+
+    border-radius: 50%;
+
+    background: currentColor !important;
+
+    opacity: 1 !important;
+}
+
+.transactions-page .risk-low .risk-badge-dot {
+    background: #ffffff !important;
+}
+
+.transactions-page .risk-medium .risk-badge-dot {
+    background: #17200a !important;
+}
+
+.transactions-page .risk-high .risk-badge-dot {
+    background: #ffffff !important;
+}
+
+.transactions-page .risk-critical .risk-badge-dot {
+    background: #ffffff !important;
+}
+
+
+/* =========================================================
+   STATUS BADGES
+   ========================================================= */
+
+.transactions-page .status-badge,
+.transactions-page .status-chip {
+    display: inline-flex !important;
+
+    align-items: center;
+    justify-content: center;
+
+    min-height: 28px;
+
+    padding: 0 9px;
+
+    border: 1px solid var(--tx-border);
+    border-radius: 999px;
+
+    color: #b8c3d4 !important;
+    background: rgba(255, 255, 255, 0.035) !important;
+
+    font-size: 9px !important;
+    font-weight: 750 !important;
+
+    opacity: 1 !important;
+}
+
+.transactions-page .status-approved,
+.transactions-page .status-completed,
+.transactions-page .status-resolved {
+    color: #7ee9c7 !important;
+    background: rgba(43, 198, 177, 0.11) !important;
+    border-color: rgba(43, 198, 177, 0.2) !important;
+}
+
+.transactions-page .status-pending,
+.transactions-page .status-review,
+.transactions-page .status-flagged {
+    color: #f5ce5d !important;
+    background: rgba(242, 183, 5, 0.11) !important;
+    border-color: rgba(242, 183, 5, 0.2) !important;
+}
+
+.transactions-page .status-blocked,
+.transactions-page .status-rejected,
+.transactions-page .status-failed {
+    color: #ff9aa4 !important;
+    background: rgba(255, 77, 94, 0.11) !important;
+    border-color: rgba(255, 77, 94, 0.2) !important;
+}
+
+
+/* =========================================================
+   TABLE ACTIONS
+   ========================================================= */
+
+.transactions-page .transaction-action,
+.transactions-page .view-button,
+.transactions-page .view-transaction,
+.transactions-page .action-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
     min-width: 32px;
-    height: 30px;
+    min-height: 32px;
 
-    padding: 0 9px;
-
-    border: 1px solid transparent;
+    border: 1px solid var(--tx-border);
     border-radius: 7px;
 
+    color: var(--tx-muted) !important;
     background: transparent;
-
-    color: #8292a8;
-
-    font-family: inherit;
-    font-size: 11px;
-    font-weight: 650;
 
     cursor: pointer;
 
     transition:
-        background 0.18s ease,
-        color 0.18s ease,
-        border-color 0.18s ease,
-        transform 0.18s ease;
+        color 150ms ease,
+        border-color 150ms ease,
+        background 150ms ease;
+}
+
+.transactions-page .transaction-action:hover,
+.transactions-page .view-button:hover,
+.transactions-page .view-transaction:hover,
+.transactions-page .action-button:hover {
+    color: #ffffff !important;
+
+    border-color: rgba(91, 140, 255, 0.4);
+
+    background: var(--tx-blue-soft);
 }
 
 
-/* page hover */
-.pagination-pages button:hover:not(.active) {
-    border-color: rgba(129, 140, 248, 0.24);
+/* =========================================================
+   PAGINATION
+   ========================================================= */
 
-    background: rgba(99, 102, 241, 0.09);
+.transactions-page .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
 
-    color: #dbe5f0;
+    margin-top: 15px;
+
+    color: var(--tx-muted);
+
+    font-size: 10px;
+}
+
+.transactions-page .pagination button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 34px;
+    min-height: 34px;
+
+    border: 1px solid var(--tx-border);
+    border-radius: 7px;
+
+    color: #cbd5e3 !important;
+    background: var(--tx-surface);
+
+    cursor: pointer;
+}
+
+.transactions-page .pagination button:hover:not(:disabled) {
+    border-color: rgba(91, 140, 255, 0.4);
+    color: #ffffff !important;
+    background: var(--tx-blue-soft);
+}
+
+.transactions-page .pagination button:disabled {
+    opacity: 0.4 !important;
+    cursor: not-allowed;
 }
 
 
-/* active page */
-.pagination-pages button.active {
-    border-color: rgba(99, 102, 241, 0.65);
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.transactions-page .transactions-error,
+.transactions-page .transaction-error,
+.transactions-page .page-error,
+.transactions-page .error-message {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    margin-bottom: 15px;
+    padding: 12px 14px;
+
+    border: 1px solid rgba(255, 77, 94, 0.25);
+    border-radius: 9px;
+
+    color: #ffb0b8 !important;
+    background: rgba(255, 77, 94, 0.08);
+
+    font-size: 11px;
+
+    opacity: 1 !important;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+
+.transactions-page .empty-state,
+.transactions-page .no-transactions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 210px;
+
+    padding: 35px;
+
+    text-align: center;
+}
+
+.transactions-page .empty-state svg,
+.transactions-page .no-transactions svg {
+    margin-bottom: 10px;
+
+    color: var(--tx-teal) !important;
+}
+
+.transactions-page .empty-state h3,
+.transactions-page .no-transactions h3 {
+    margin: 0;
+
+    color: var(--tx-text) !important;
+
+    font-size: 14px;
+}
+
+.transactions-page .empty-state p,
+.transactions-page .no-transactions p {
+    margin-top: 5px;
+
+    color: var(--tx-muted) !important;
+
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   LOADING
+   ========================================================= */
+
+.transactions-page .loading-row,
+.transactions-page .table-loading {
+    padding: 20px;
+}
+
+.transactions-page .loading-line {
+    height: 42px;
+
+    margin-bottom: 8px;
+
+    border-radius: 7px;
 
     background:
         linear-gradient(
-            135deg,
-            #6366f1,
-            #4f46e5
+            90deg,
+            rgba(255, 255, 255, 0.025),
+            rgba(255, 255, 255, 0.07),
+            rgba(255, 255, 255, 0.025)
         );
 
-    color: #ffffff;
+    background-size: 200% 100%;
 
-    box-shadow:
-        0 4px 14px rgba(79, 70, 229, 0.28),
-        inset 0 1px 0 rgba(255, 255, 255, 0.14);
-
-    transform: translateY(-1px);
+    animation: transactions-shimmer 1.5s ease-in-out infinite;
 }
 
 
 /* =========================================================
-   OPTIONAL PAGE INFO
-   Works if JSX contains .pagination-info
+   MOBILE TABLE
    ========================================================= */
 
-.pagination-info {
-    display: flex;
-    align-items: center;
-    gap: 7px;
+@media (max-width: 900px) {
+    .transactions-page {
+        padding: 20px;
+    }
 
-    color: #718096;
+    .transactions-page .transaction-toolbar,
+    .transactions-page .transactions-toolbar,
+    .transactions-page .filters,
+    .transactions-page .transaction-filters,
+    .transactions-page .filters-bar {
+        align-items: stretch;
+        flex-direction: column;
+    }
 
-    font-size: 10px;
-    font-weight: 550;
-
-    white-space: nowrap;
-}
-
-.pagination-info strong {
-    color: #dbe5f0;
-    font-weight: 700;
-}
-
-
-/* =========================================================
-   SVG ICONS
-   ========================================================= */
-
-.transaction-pagination svg {
-    width: 14px;
-    height: 14px;
-
-    flex-shrink: 0;
-
-    stroke-width: 2;
-}
-
-
-/* =========================================================
-   KEYBOARD ACCESSIBILITY
-   ========================================================= */
-
-.transaction-pagination button:focus-visible {
-    outline: none;
-
-    border-color: #38bdf8;
-
-    box-shadow:
-        0 0 0 3px rgba(56, 189, 248, 0.12);
+    .transactions-page select {
+        width: 100%;
+    }
 }
 
 
@@ -278,74 +949,70 @@
    MOBILE
    ========================================================= */
 
-@media (max-width: 700px) {
-
-    .transaction-pagination {
-        justify-content: center;
-
-        gap: 8px;
-
-        padding: 9px;
-
-        border-radius: 10px;
+@media (max-width: 600px) {
+    .transactions-page {
+        padding: 14px;
     }
 
-    .transaction-pagination > button {
-        min-width: 36px;
-        width: 36px;
-
-        padding: 0;
-
-        font-size: 0;
+    .transactions-page th,
+    .transactions-page td {
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
-    .transaction-pagination > button svg {
-        width: 15px;
-        height: 15px;
-
-        margin: 0;
+    .transactions-page th {
+        font-size: 8px;
     }
 
-    .pagination-pages {
-        gap: 3px;
-    }
-
-    .pagination-pages button {
-        min-width: 30px;
-        height: 30px;
-
-        padding: 0 7px;
-
+    .transactions-page td {
         font-size: 10px;
     }
 
-    .pagination-info {
-        display: none;
+    .transactions-page .risk-badge,
+    .transactions-page .risk-level,
+    .transactions-page .risk-chip,
+    .transactions-page .risk-label {
+        min-width: 60px;
+        min-height: 29px;
+
+        padding: 0 10px;
+
+        font-size: 10px !important;
+    }
+
+    .transactions-page .pagination {
+        align-items: stretch;
+        flex-direction: column;
     }
 }
 
 
 /* =========================================================
-   SMALL MOBILE
+   REDUCED MOTION
    ========================================================= */
 
-@media (max-width: 420px) {
+@media (prefers-reduced-motion: reduce) {
+    .transactions-page *,
+    .transactions-page *::before,
+    .transactions-page *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
 
-    .transaction-pagination {
-        gap: 5px;
-        padding: 7px;
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
+@keyframes transactions-shimmer {
+    0% {
+        background-position: 200% 0;
     }
 
-    .transaction-pagination > button {
-        width: 32px;
-        min-width: 32px;
-        height: 32px;
-    }
-
-    .pagination-pages button {
-        min-width: 28px;
-        height: 28px;
-
-        font-size: 9px;
+    100% {
+        background-position: -200% 0;
     }
 }

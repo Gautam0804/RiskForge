@@ -2,14 +2,6 @@ const { error } = require("../utils/apiResponse");
 
 function validate(schema) {
     return (req, res, next) => {
-        console.log("VALIDATION REQUEST:", {
-            method: req.method,
-            url: req.originalUrl,
-            params: req.params,
-            body: req.body,
-            query: req.query
-        });
-
         const result = schema.safeParse({
             body: req.body || {},
             params: req.params || {},
@@ -17,14 +9,23 @@ function validate(schema) {
         });
 
         if (!result.success) {
-            console.log("VALIDATION ERROR:", result.error.issues);
+            // Never log request bodies: they may contain passwords or tokens.
+            console.warn("Request validation failed:", {
+                method: req.method,
+                url: req.originalUrl,
+                issues: result.error.issues.map((issue) => ({
+                    path: issue.path,
+                    message: issue.message,
+                    code: issue.code
+                }))
+            });
 
             return error(
                 res,
                 "Validation failed",
                 400,
                 result.error.issues.map((issue) => ({
-                    path: issue.path,
+                    field: issue.path.join("."),
                     message: issue.message
                 }))
             );

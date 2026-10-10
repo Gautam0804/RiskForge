@@ -1,40 +1,98 @@
 /* =========================================================
-   RISKFORGE — INVESTIGATION DASHBOARD
-========================================================= */
+   RISKFORGE — INVESTIGATION PANEL
+   Enterprise SOC / AI Fraud Investigation UI
+   ========================================================= */
 
 .investigation-panel {
+    --inv-bg: #0a0f1c;
+    --inv-surface: #111827;
+    --inv-surface-2: #151e2e;
+    --inv-surface-3: #192337;
+
+    --inv-border: #243049;
+    --inv-border-soft: rgba(255, 255, 255, 0.07);
+
+    --inv-text: #eaf0fb;
+    --inv-text-soft: #c6d0e0;
+    --inv-muted: #8d9bb5;
+    --inv-muted-2: #68758c;
+
+    --inv-blue: #5b8cff;
+    --inv-blue-soft: rgba(91, 140, 255, 0.12);
+
+    --inv-green: #2bc6b1;
+    --inv-green-soft: rgba(43, 198, 177, 0.12);
+
+    --inv-yellow: #f2b705;
+    --inv-yellow-soft: rgba(242, 183, 5, 0.12);
+
+    --inv-orange: #ff8a3d;
+    --inv-orange-soft: rgba(255, 138, 61, 0.12);
+
+    --inv-red: #ff4d5e;
+    --inv-red-soft: rgba(255, 77, 94, 0.12);
+
+    --inv-purple: #9b7cff;
+    --inv-purple-soft: rgba(155, 124, 255, 0.12);
+
     width: 100%;
-    color: #e8edf6;
+    min-width: 0;
+    color: var(--inv-text);
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+    font-variant-numeric: tabular-nums;
+    box-sizing: border-box;
 }
 
+.investigation-panel *,
+.investigation-panel *::before,
+.investigation-panel *::after {
+    box-sizing: border-box;
+}
 
 /* =========================================================
    LOADING
-========================================================= */
+   ========================================================= */
 
 .investigation-loading {
-    min-height: 320px;
+    width: 100%;
+    min-height: 300px;
 
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 14px;
 
-    gap: 12px;
+    border: 1px solid var(--inv-border);
+    border-radius: 14px;
 
-    color: #8292aa;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(17, 24, 39, 0.98),
+            rgba(10, 15, 28, 0.98)
+        );
+
+    color: var(--inv-muted);
     font-size: 13px;
+    font-weight: 600;
 }
 
 .loading-spinner {
-    width: 22px;
-    height: 22px;
+    width: 32px;
+    height: 32px;
 
-    border: 2px solid #263249;
-    border-top-color: #8174ff;
-
+    border: 3px solid rgba(91, 140, 255, 0.16);
+    border-top-color: var(--inv-blue);
     border-radius: 50%;
 
-    animation: investigation-spin 0.75s linear infinite;
+    animation: investigation-spin 0.8s linear infinite;
 }
 
 @keyframes investigation-spin {
@@ -43,1068 +101,945 @@
     }
 }
 
-
-/* =========================================================
-   ERROR
-========================================================= */
-
-.investigation-error {
-    display: flex;
-    align-items: center;
-
-    gap: 10px;
-
-    margin-bottom: 18px;
-    padding: 13px 15px;
-
-    border: 1px solid rgba(248, 113, 113, 0.25);
-    border-radius: 10px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(127, 29, 29, 0.18),
-            rgba(69, 10, 10, 0.12)
-        );
-
-    color: #ff8585;
-
-    font-size: 13px;
-}
-
-
 /* =========================================================
    EMPTY STATE
-========================================================= */
+   ========================================================= */
 
 .investigation-empty {
-    min-height: 340px;
+    width: 100%;
+    min-height: 300px;
+    padding: 40px 25px;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
-    padding: 40px;
-
-    border: 1px solid #202b3d;
-    border-radius: 16px;
+    border: 1px dashed var(--inv-border);
+    border-radius: 14px;
 
     background:
-        radial-gradient(
-            circle at top,
-            rgba(99, 102, 241, 0.08),
-            transparent 45%
-        ),
-        #0a101a;
+        linear-gradient(
+            145deg,
+            rgba(17, 24, 39, 0.9),
+            rgba(15, 22, 36, 0.9)
+        );
 
     text-align: center;
 }
 
 .investigation-empty svg {
-    width: 44px;
-    height: 44px;
-
-    margin-bottom: 16px;
-
-    color: #697b99;
+    margin-bottom: 14px;
+    color: var(--inv-muted-2);
 }
 
 .investigation-empty h3 {
-    margin: 0 0 8px;
-
-    color: #eef2f8;
-
-    font-size: 17px;
+    margin: 0 0 7px;
+    color: var(--inv-text);
+    font-size: 16px;
+    font-weight: 750;
 }
 
 .investigation-empty p {
-    max-width: 400px;
-
+    max-width: 360px;
     margin: 0;
-
-    color: #71839d;
-
-    font-size: 13px;
+    color: var(--inv-muted);
+    font-size: 12px;
+    line-height: 1.6;
 }
-
 
 /* =========================================================
    LIST
-========================================================= */
+   ========================================================= */
 
 .investigation-list {
+    width: 100%;
     display: flex;
     flex-direction: column;
-
-    gap: 20px;
+    gap: 18px;
 }
 
-
 /* =========================================================
-   MAIN CARD
-========================================================= */
+   INVESTIGATION CARD
+   ========================================================= */
 
 .investigation-card {
-    position: relative;
-
+    width: 100%;
+    min-width: 0;
     overflow: hidden;
 
-    border: 1px solid #202b3d;
-    border-radius: 16px;
+    border: 1px solid var(--inv-border);
+    border-radius: 15px;
 
     background:
         linear-gradient(
-            180deg,
-            #0c131f 0%,
-            #09101a 100%
+            145deg,
+            rgba(17, 24, 39, 0.99),
+            rgba(15, 22, 36, 0.99)
         );
 
     box-shadow:
-        0 12px 35px rgba(0, 0, 0, 0.18);
+        0 10px 30px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.02);
 
     transition:
-        border-color 0.25s ease,
-        transform 0.25s ease,
-        box-shadow 0.25s ease;
+        border-color 180ms ease,
+        transform 180ms ease,
+        box-shadow 180ms ease;
 }
 
 .investigation-card:hover {
-    border-color: #2d3a51;
-
     transform: translateY(-2px);
 
+    border-color: rgba(91, 140, 255, 0.28);
+
     box-shadow:
-        0 18px 45px rgba(0, 0, 0, 0.25);
+        0 16px 38px rgba(0, 0, 0, 0.18),
+        0 0 0 1px rgba(91, 140, 255, 0.025);
 }
-
-
-/* subtle top glow */
-
-.investigation-card::before {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-    left: 0;
-    right: 0;
-
-    height: 2px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            #6d5dfc,
-            transparent
-        );
-
-    opacity: 0.65;
-}
-
 
 /* =========================================================
    CARD HEADER
-========================================================= */
+   ========================================================= */
 
 .investigation-card-header {
+    min-width: 0;
+    padding: 19px 20px;
+
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
+    gap: 18px;
 
-    gap: 20px;
-
-    padding: 22px 24px;
-
-    border-bottom: 1px solid #1c2737;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(20, 29, 44, 0.55),
-            rgba(9, 16, 27, 0.3)
-        );
+    border-bottom: 1px solid var(--inv-border-soft);
 }
 
-
-/* left header */
+.investigation-card-header > div:first-child {
+    min-width: 0;
+}
 
 .investigation-label {
-    margin-bottom: 7px;
+    margin-bottom: 6px;
 
-    color: #6f82a0;
+    color: var(--inv-blue);
 
     font-size: 9px;
-    font-weight: 700;
-
+    font-weight: 800;
     letter-spacing: 0.12em;
 }
 
 .investigation-card-header h3 {
+    max-width: 600px;
     margin: 0;
 
-    color: #f4f7fb;
+    overflow: hidden;
 
-    font-size: 19px;
-    font-weight: 700;
+    color: var(--inv-text);
+    font-size: 17px;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    line-height: 1.35;
 
-    letter-spacing: -0.01em;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .investigation-id {
-    display: flex;
-    align-items: center;
+    margin: 6px 0 0;
 
-    gap: 5px;
-
-    margin: 7px 0 0;
-
-    color: #5f718c;
+    color: var(--inv-muted);
 
     font-size: 11px;
+    line-height: 1.4;
 }
 
 .investigation-id span {
-    color: #8294ae;
+    margin-left: 5px;
+    color: var(--inv-text-soft);
+    font-family: "SFMono-Regular", Consolas, monospace;
 }
 
-
 /* =========================================================
-   STATUS BADGE
-========================================================= */
+   STATUS
+   ========================================================= */
 
 .investigation-status {
+    flex: 0 0 auto;
+
+    min-height: 28px;
+    padding: 5px 10px;
+
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    gap: 6px;
 
-    gap: 7px;
+    border: 1px solid var(--inv-border);
+    border-radius: 7px;
 
-    padding: 7px 11px;
+    background: rgba(255, 255, 255, 0.035);
 
-    border-radius: 999px;
-
-    font-size: 11px;
-    font-weight: 600;
+    color: var(--inv-muted);
+    font-size: 10px;
+    font-weight: 800;
 
     text-transform: capitalize;
-
     white-space: nowrap;
 }
 
-.investigation-status svg {
-    width: 14px;
-    height: 14px;
+.investigation-status.status-open {
+    color: #8fb0ff;
+    background: var(--inv-blue-soft);
+    border-color: rgba(91, 140, 255, 0.25);
 }
 
-
-/* status colors */
-
-.status-open {
-    border: 1px solid rgba(96, 165, 250, 0.25);
-
-    background: rgba(37, 99, 235, 0.10);
-
-    color: #60a5fa;
+.investigation-status.status-investigating {
+    color: #ffd866;
+    background: var(--inv-yellow-soft);
+    border-color: rgba(242, 183, 5, 0.25);
 }
 
-.status-investigating {
-    border: 1px solid rgba(251, 191, 36, 0.25);
-
-    background: rgba(180, 83, 9, 0.10);
-
-    color: #fbbf24;
+.investigation-status.status-resolved {
+    color: #70dfcf;
+    background: var(--inv-green-soft);
+    border-color: rgba(43, 198, 177, 0.25);
 }
 
-.status-resolved {
-    border: 1px solid rgba(74, 222, 128, 0.25);
-
-    background: rgba(21, 128, 61, 0.10);
-
-    color: #4ade80;
+.investigation-status.status-closed {
+    color: #ff9da8;
+    background: var(--inv-red-soft);
+    border-color: rgba(255, 77, 94, 0.25);
 }
-
-.status-closed {
-    border: 1px solid rgba(148, 163, 184, 0.22);
-
-    background: rgba(71, 85, 105, 0.12);
-
-    color: #aeb9c9;
-}
-
 
 /* =========================================================
-   TRANSACTION ID BAR
-========================================================= */
+   TRANSACTION ID
+   ========================================================= */
 
 .investigation-transaction-id {
+    min-height: 47px;
+    padding: 12px 20px;
+
     display: flex;
     align-items: center;
+    gap: 7px;
 
-    gap: 8px;
+    border-bottom: 1px solid var(--inv-border-soft);
 
-    padding: 13px 24px;
-
-    border-bottom: 1px solid #172131;
-
-    background: rgba(5, 10, 18, 0.28);
-
-    font-size: 11px;
-
-    overflow: hidden;
+    background: rgba(255, 255, 255, 0.012);
 }
 
 .investigation-transaction-id span {
-    flex-shrink: 0;
-
-    color: #657792;
+    color: var(--inv-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
 }
 
 .investigation-transaction-id strong {
-    min-width: 0;
-
-    color: #9cabc0;
-
-    font-size: 11px;
-    font-weight: 500;
-
     overflow: hidden;
 
-    text-overflow: ellipsis;
+    color: var(--inv-text-soft);
 
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 11px;
+    font-weight: 600;
+
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
-
 
 /* =========================================================
    INFORMATION GRID
-========================================================= */
+   ========================================================= */
 
 .investigation-info-grid {
+    padding: 18px 20px;
+
     display: grid;
-
-    grid-template-columns:
-        repeat(4, minmax(0, 1fr));
-
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 12px;
 
-    padding: 18px 24px;
+    border-bottom: 1px solid var(--inv-border-soft);
 }
 
-
-/* info card */
-
 .investigation-info {
-    position: relative;
-
     min-width: 0;
-    min-height: 106px;
+    min-height: 84px;
+    padding: 13px;
 
-    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 
-    border: 1px solid #202c3e;
-    border-radius: 11px;
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    border-radius: 10px;
 
-    background:
-        linear-gradient(
-            145deg,
-            #111a29,
-            #0d1522
-        );
+    background: rgba(255, 255, 255, 0.018);
 
     transition:
-        border-color 0.2s ease,
-        background 0.2s ease;
+        border-color 160ms ease,
+        background 160ms ease;
 }
 
 .investigation-info:hover {
-    border-color: #2c3a51;
-
-    background:
-        linear-gradient(
-            145deg,
-            #131e30,
-            #0e1725
-        );
+    border-color: rgba(91, 140, 255, 0.18);
+    background: rgba(91, 140, 255, 0.025);
 }
 
-.investigation-info svg {
-    display: block;
-
-    width: 18px;
-    height: 18px;
-
-    margin-bottom: 13px;
-
-    color: #7085a3;
+.investigation-info > svg {
+    margin-bottom: 9px;
+    color: var(--inv-blue);
 }
 
-.investigation-info span {
-    display: block;
+.investigation-info > span {
+    margin-bottom: 4px;
 
-    margin-bottom: 6px;
-
-    color: #61738e;
+    color: var(--inv-muted-2);
 
     font-size: 9px;
-    font-weight: 700;
-
+    font-weight: 800;
     letter-spacing: 0.08em;
 }
 
-.investigation-info strong {
-    display: block;
-
-    color: #edf2f8;
-
-    font-size: 14px;
-    font-weight: 600;
+.investigation-info > strong {
+    max-width: 100%;
 
     overflow: hidden;
 
-    text-overflow: ellipsis;
+    color: var(--inv-text-soft);
 
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.35;
+
+    text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-
 /* =========================================================
-   RISK LEVEL COLORS
-========================================================= */
+   RISK LEVEL INFO
+   ========================================================= */
+
+.investigation-info.risk-low > svg {
+    color: var(--inv-green);
+}
+
+.investigation-info.risk-medium > svg {
+    color: var(--inv-yellow);
+}
+
+.investigation-info.risk-high > svg {
+    color: var(--inv-orange);
+}
+
+.investigation-info.risk-critical > svg {
+    color: var(--inv-red);
+}
 
 .investigation-info.risk-low {
-    border-color: rgba(74, 222, 128, 0.18);
+    border-color: rgba(43, 198, 177, 0.14);
 }
-
-.investigation-info.risk-low svg {
-    color: #4ade80;
-}
-
-.investigation-info.risk-low strong {
-    color: #4ade80;
-}
-
 
 .investigation-info.risk-medium {
-    border-color: rgba(251, 191, 36, 0.18);
+    border-color: rgba(242, 183, 5, 0.14);
 }
-
-.investigation-info.risk-medium svg {
-    color: #fbbf24;
-}
-
-.investigation-info.risk-medium strong {
-    color: #fbbf24;
-}
-
 
 .investigation-info.risk-high {
-    border-color: rgba(248, 113, 113, 0.20);
+    border-color: rgba(255, 138, 61, 0.14);
 }
-
-.investigation-info.risk-high svg {
-    color: #ff5d67;
-}
-
-.investigation-info.risk-high strong {
-    color: #ff5d67;
-}
-
 
 .investigation-info.risk-critical {
-    border-color: rgba(239, 68, 68, 0.30);
+    border-color: rgba(255, 77, 94, 0.18);
+}
+
+/* =========================================================
+   RISK METRICS
+   ========================================================= */
+
+.investigation-risk-section {
+    padding: 18px 20px;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+
+    border-bottom: 1px solid var(--inv-border-soft);
+}
+
+.risk-score-box {
+    min-height: 88px;
+    padding: 15px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    border-radius: 10px;
 
     background:
         linear-gradient(
             145deg,
-            rgba(127, 29, 29, 0.14),
-            #0e1521
+            rgba(91, 140, 255, 0.035),
+            rgba(255, 255, 255, 0.012)
         );
 }
 
-.investigation-info.risk-critical svg {
-    color: #ff414b;
-}
-
-.investigation-info.risk-critical strong {
-    color: #ff414b;
-}
-
-
-/* =========================================================
-   RISK METRICS
-========================================================= */
-
-.investigation-risk-section {
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 12px;
-
-    padding: 0 24px 20px;
-}
-
-.risk-score-box {
-    position: relative;
-
-    overflow: hidden;
-
-    padding: 18px;
-
-    border: 1px solid #202c3e;
-    border-radius: 11px;
-
-    background: #0f1725;
-}
-
-.risk-score-box::after {
-    content: "";
-
-    position: absolute;
-
-    right: -30px;
-    bottom: -35px;
-
-    width: 100px;
-    height: 100px;
-
-    border-radius: 50%;
-
-    background: rgba(99, 102, 241, 0.06);
-
-    filter: blur(10px);
-}
-
 .risk-score-box span {
-    display: block;
+    margin-bottom: 7px;
 
-    margin-bottom: 8px;
+    color: var(--inv-muted-2);
 
-    color: #647895;
-
-    font-size: 10px;
-    font-weight: 600;
-
-    text-transform: uppercase;
-
-    letter-spacing: 0.06em;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.08em;
 }
 
 .risk-score-box strong {
-    position: relative;
-    z-index: 1;
+    color: var(--inv-text);
 
-    color: #f4f7fb;
-
-    font-size: 27px;
-    font-weight: 700;
+    font-size: 25px;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.03em;
 }
-
 
 /* =========================================================
    RISK FACTORS
-========================================================= */
+   ========================================================= */
 
 .investigation-factors {
-    padding: 0 24px 20px;
+    padding: 19px 20px;
+    border-bottom: 1px solid var(--inv-border-soft);
 }
 
 .section-title {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    margin-bottom: 11px;
+    margin-bottom: 14px;
 }
 
 .section-title h4 {
     margin: 0;
 
-    color: #e8edf5;
+    color: var(--inv-text);
 
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 13px;
+    font-weight: 750;
 }
 
 .risk-factor-grid {
     display: grid;
-
-    grid-template-columns:
-        repeat(3, minmax(0, 1fr));
-
-    gap: 11px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
 }
 
 .risk-factor {
-    padding: 14px;
+    min-width: 0;
+    padding: 13px;
 
-    border: 1px solid #202d40;
-    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.055);
+    border-radius: 9px;
 
-    background: #0e1724;
-
-    transition:
-        border-color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.risk-factor:hover {
-    border-color: #33435c;
-
-    transform: translateY(-1px);
+    background: rgba(255, 255, 255, 0.015);
 }
 
 .risk-factor-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     gap: 10px;
 
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .risk-factor-header strong {
-    color: #dce4ee;
+    min-width: 0;
+    overflow: hidden;
 
-    font-size: 12px;
+    color: var(--inv-text-soft);
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .risk-factor-header span {
-    padding: 3px 6px;
+    flex: 0 0 auto;
 
-    border-radius: 5px;
+    color: var(--inv-orange);
 
-    background: rgba(239, 68, 68, 0.10);
-
-    color: #ff656c;
-
-    font-size: 10px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 800;
 }
 
 .risk-factor-bar {
-    height: 4px;
-
-    margin-bottom: 10px;
-
+    width: 100%;
+    height: 5px;
     overflow: hidden;
 
-    border-radius: 999px;
-
-    background: #253247;
+    border-radius: 99px;
+    background: #202b3f;
 }
 
-.risk-factor-bar div {
+.risk-factor-bar > div {
     height: 100%;
+    min-width: 3px;
 
     border-radius: inherit;
 
     background:
         linear-gradient(
             90deg,
-            #6456df,
-            #887aff
+            var(--inv-blue),
+            var(--inv-orange)
         );
+
+    box-shadow: 0 0 10px rgba(255, 138, 61, 0.18);
+
+    transition: width 350ms ease;
 }
 
 .risk-factor p {
-    margin: 0;
+    margin: 8px 0 0;
 
-    color: #70819b;
+    color: var(--inv-muted);
 
-    font-size: 11px;
-
-    line-height: 1.55;
+    font-size: 10px;
+    line-height: 1.5;
 }
-
 
 /* =========================================================
    AI SUMMARY
-========================================================= */
+   ========================================================= */
 
 .investigation-ai-summary {
-    position: relative;
+    margin: 18px 20px;
+    padding: 16px;
 
-    margin: 0 24px 18px;
-
-    padding: 17px;
-
-    border: 1px solid rgba(129, 116, 255, 0.24);
+    border: 1px solid rgba(155, 124, 255, 0.18);
     border-radius: 11px;
 
     background:
         linear-gradient(
-            135deg,
-            rgba(109, 40, 217, 0.10),
-            rgba(59, 130, 246, 0.03)
+            145deg,
+            rgba(155, 124, 255, 0.07),
+            rgba(91, 140, 255, 0.025)
         );
-}
-
-.investigation-ai-summary::before {
-    content: "";
-
-    position: absolute;
-
-    left: 0;
-    top: 14px;
-    bottom: 14px;
-
-    width: 2px;
-
-    border-radius: 4px;
-
-    background: #8174ff;
 }
 
 .ai-summary-header {
     display: flex;
     align-items: center;
-
     gap: 8px;
 
-    margin-bottom: 8px;
-
-    color: #b09fff;
+    margin-bottom: 10px;
 }
 
 .ai-summary-header svg {
-    width: 17px;
-    height: 17px;
+    color: var(--inv-purple);
 }
 
 .ai-summary-header strong {
-    color: #ddd7ff;
+    color: var(--inv-text);
 
-    font-size: 13px;
+    font-size: 12px;
+    font-weight: 750;
 }
 
 .investigation-ai-summary p {
     margin: 0;
 
-    color: #aeb9c9;
+    color: var(--inv-text-soft);
 
     font-size: 12px;
-
     line-height: 1.65;
 }
 
-
 /* =========================================================
    DECISION
-========================================================= */
+   ========================================================= */
 
 .investigation-decision {
+    min-height: 49px;
+    margin: 0 20px 16px;
+    padding: 11px 14px;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 15px;
 
-    margin: 0 24px 16px;
+    border: 1px solid var(--inv-border);
+    border-radius: 9px;
 
-    padding: 11px 14px;
-
-    border: 1px solid #202c3e;
-    border-radius: 8px;
-
-    background: #0d1521;
+    background: rgba(255, 255, 255, 0.018);
 }
 
-.investigation-decision span {
-    color: #6d809b;
-
+.investigation-decision > span {
+    color: var(--inv-muted);
     font-size: 11px;
+    font-weight: 650;
 }
 
-.investigation-decision strong {
-    font-size: 11px;
-    font-weight: 700;
+.investigation-decision > strong {
+    min-width: 75px;
+    padding: 5px 9px;
 
-    text-transform: uppercase;
+    text-align: center;
 
-    letter-spacing: 0.05em;
+    border-radius: 6px;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    text-transform: capitalize;
 }
 
 .decision-approved {
-    color: #4ade80;
+    color: #ffffff !important;
+    background: #22c55e !important;
 }
 
 .decision-review {
-    color: #fbbf24;
+    color: #17130a !important;
+    background: #f2b705 !important;
 }
 
 .decision-blocked {
-    color: #ff6068;
+    color: #ffffff !important;
+    background: #ff4d5e !important;
 }
-
 
 /* =========================================================
    DATE
-========================================================= */
+   ========================================================= */
 
 .investigation-date {
-    padding: 0 24px 17px;
+    padding: 0 20px 16px;
 
-    color: #52647d;
+    color: var(--inv-muted-2);
 
     font-size: 10px;
 }
 
 .investigation-date span {
     margin-left: 5px;
-
-    color: #71839b;
+    color: var(--inv-muted);
 }
 
-
 /* =========================================================
-   ACTION BAR
-========================================================= */
+   ACTIONS
+   ========================================================= */
 
 .investigation-actions {
-    display: flex;
-    align-items: center;
+    padding: 15px 20px;
 
+    display: grid;
+    grid-template-columns: 1.35fr repeat(3, 1fr);
     gap: 9px;
 
-    padding: 15px 24px;
+    border-top: 1px solid var(--inv-border-soft);
 
-    border-top: 1px solid #1d2838;
-
-    background:
-        linear-gradient(
-            90deg,
-            #09111b,
-            #0b131f
-        );
+    background: rgba(255, 255, 255, 0.012);
 }
 
 .investigation-actions button {
+    min-height: 38px;
+    padding: 8px 11px;
+
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
     gap: 7px;
-
-    min-height: 37px;
-
-    padding: 0 14px;
 
     border-radius: 8px;
 
     font-family: inherit;
-
     font-size: 11px;
-    font-weight: 600;
+    font-weight: 750;
 
     cursor: pointer;
 
     transition:
-        background 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease,
-        transform 0.15s ease;
+        transform 150ms ease,
+        background 150ms ease,
+        border-color 150ms ease,
+        box-shadow 150ms ease;
 }
 
-.investigation-actions button:active {
-    transform: scale(0.98);
+.investigation-actions button:hover:not(:disabled) {
+    transform: translateY(-1px);
+}
+
+.investigation-actions button:active:not(:disabled) {
+    transform: translateY(0);
 }
 
 .investigation-actions button:disabled {
-    opacity: 0.35;
-
     cursor: not-allowed;
+    opacity: 0.42;
 }
 
-
-/* =========================================================
-   AI INVESTIGATE
-========================================================= */
+/* AI */
 
 .investigation-ai-button {
-    border: 1px solid rgba(139, 92, 246, 0.40);
+    color: #d8ccff;
+
+    border: 1px solid rgba(155, 124, 255, 0.3);
 
     background:
         linear-gradient(
             135deg,
-            rgba(124, 92, 246, 0.17),
-            rgba(109, 40, 217, 0.08)
+            rgba(155, 124, 255, 0.13),
+            rgba(91, 140, 255, 0.08)
         );
-
-    color: #bba9ff;
 }
 
-.investigation-ai-button:hover {
-    border-color: rgba(155, 135, 255, 0.70);
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(124, 92, 246, 0.27),
-            rgba(109, 40, 217, 0.15)
-        );
-
-    color: #d4c9ff;
+.investigation-ai-button:hover:not(:disabled) {
+    border-color: rgba(155, 124, 255, 0.55);
 
     box-shadow:
-        0 0 18px rgba(124, 92, 246, 0.10);
+        0 5px 18px rgba(155, 124, 255, 0.1);
 }
 
-
-/* =========================================================
-   APPROVE
-========================================================= */
+/* Approve */
 
 .investigation-approve-button {
-    border: 1px solid rgba(74, 222, 128, 0.28);
+    color: #8ae5d8;
 
-    background: rgba(21, 128, 61, 0.08);
-
-    color: #55d985;
+    border: 1px solid rgba(43, 198, 177, 0.25);
+    background: var(--inv-green-soft);
 }
 
 .investigation-approve-button:hover:not(:disabled) {
-    border-color: rgba(74, 222, 128, 0.55);
-
-    background: rgba(21, 128, 61, 0.17);
+    border-color: rgba(43, 198, 177, 0.5);
+    background: rgba(43, 198, 177, 0.18);
 }
 
-
-/* =========================================================
-   REVIEW
-========================================================= */
+/* Review */
 
 .investigation-review-button {
-    border: 1px solid rgba(251, 191, 36, 0.28);
+    color: #ffd866;
 
-    background: rgba(180, 83, 9, 0.08);
-
-    color: #f5bc4e;
+    border: 1px solid rgba(242, 183, 5, 0.25);
+    background: var(--inv-yellow-soft);
 }
 
 .investigation-review-button:hover:not(:disabled) {
-    border-color: rgba(251, 191, 36, 0.55);
-
-    background: rgba(180, 83, 9, 0.16);
+    border-color: rgba(242, 183, 5, 0.5);
+    background: rgba(242, 183, 5, 0.18);
 }
 
-
-/* =========================================================
-   BLOCK
-========================================================= */
+/* Block */
 
 .investigation-block-button {
-    border: 1px solid rgba(248, 113, 113, 0.28);
+    color: #ff9da8;
 
-    background: rgba(127, 29, 29, 0.08);
-
-    color: #ff666d;
+    border: 1px solid rgba(255, 77, 94, 0.25);
+    background: var(--inv-red-soft);
 }
 
 .investigation-block-button:hover:not(:disabled) {
-    border-color: rgba(248, 113, 113, 0.55);
-
-    background: rgba(127, 29, 29, 0.17);
+    border-color: rgba(255, 77, 94, 0.5);
+    background: rgba(255, 77, 94, 0.18);
 }
 
-
 /* =========================================================
-   CLOSED
-========================================================= */
+   CLOSED STATE
+   ========================================================= */
 
 .investigation-closed {
+    min-height: 43px;
+    padding: 10px 20px;
+
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
 
-    gap: 7px;
+    border-top: 1px solid rgba(43, 198, 177, 0.13);
 
-    padding: 11px;
+    background: rgba(43, 198, 177, 0.045);
 
-    border-top: 1px solid #1d2838;
-
-    background: rgba(71, 85, 105, 0.06);
-
-    color: #7e8da4;
+    color: #75dfd0;
 
     font-size: 11px;
+    font-weight: 700;
 }
 
 .investigation-closed svg {
-    color: #64748b;
+    color: var(--inv-green);
 }
-
 
 /* =========================================================
-   RESPONSIVE
-========================================================= */
+   FOCUS
+   ========================================================= */
 
-@media (max-width: 1150px) {
+.investigation-panel button:focus-visible {
+    outline: 2px solid var(--inv-blue);
+    outline-offset: 2px;
+}
 
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1000px) {
     .investigation-info-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .risk-factor-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
+        grid-template-columns: 1fr;
+    }
+
+    .investigation-actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .investigation-ai-button {
+        grid-column: 1 / -1;
     }
 }
 
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
-@media (max-width: 720px) {
+@media (max-width: 640px) {
+    .investigation-list {
+        gap: 14px;
+    }
+
+    .investigation-card {
+        border-radius: 12px;
+    }
 
     .investigation-card-header {
-        align-items: flex-start;
-
+        padding: 16px;
         flex-direction: column;
+        gap: 12px;
     }
 
-    .investigation-info-grid {
-        grid-template-columns: 1fr;
-
-        padding-left: 16px;
-        padding-right: 16px;
+    .investigation-card-header h3 {
+        max-width: 100%;
+        font-size: 15px;
     }
 
-    .investigation-risk-section {
-        grid-template-columns: 1fr;
-
-        padding-left: 16px;
-        padding-right: 16px;
-    }
-
-    .risk-factor-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .investigation-card-header {
-        padding: 18px;
+    .investigation-status {
+        align-self: flex-start;
     }
 
     .investigation-transaction-id {
-        padding-left: 18px;
-        padding-right: 18px;
+        padding: 11px 16px;
     }
 
-    .investigation-factors,
+    .investigation-info-grid {
+        padding: 14px 16px;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+    }
+
+    .investigation-info {
+        min-height: 78px;
+        padding: 11px;
+    }
+
+    .investigation-risk-section {
+        padding: 14px 16px;
+        grid-template-columns: 1fr 1fr;
+        gap: 9px;
+    }
+
+    .risk-score-box {
+        min-height: 78px;
+        padding: 12px;
+    }
+
+    .risk-score-box strong {
+        font-size: 22px;
+    }
+
+    .investigation-factors {
+        padding: 16px;
+    }
+
     .investigation-ai-summary {
+        margin: 16px;
+    }
+
+    .investigation-decision {
         margin-left: 16px;
         margin-right: 16px;
     }
 
-    .investigation-actions {
-        flex-wrap: wrap;
-
+    .investigation-date {
         padding-left: 16px;
         padding-right: 16px;
     }
 
-    .investigation-actions button {
-        flex: 1;
+    .investigation-actions {
+        padding: 13px 16px;
+        grid-template-columns: 1fr 1fr;
+    }
 
-        min-width: 115px;
+    .investigation-ai-button {
+        grid-column: 1 / -1;
+    }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 430px) {
+    .investigation-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .investigation-risk-section {
+        grid-template-columns: 1fr;
+    }
+
+    .investigation-info {
+        min-height: 72px;
+    }
+
+    .investigation-actions {
+        grid-template-columns: 1fr;
+    }
+
+    .investigation-ai-button {
+        grid-column: auto;
+    }
+
+    .investigation-actions button {
+        width: 100%;
+    }
+
+    .investigation-decision {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .investigation-decision > strong {
+        width: 100%;
+    }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .investigation-panel *,
+    .investigation-panel *::before,
+    .investigation-panel *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
     }
 }

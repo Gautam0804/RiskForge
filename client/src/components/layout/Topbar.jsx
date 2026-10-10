@@ -3,6 +3,7 @@ import {
     Bell,
     ChevronDown
 } from "lucide-react";
+import "./Topbar.css";
 
 export default function Topbar() {
     return (

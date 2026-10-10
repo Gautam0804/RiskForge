@@ -1,0 +1,575 @@
+/* =========================================================
+   RISKFORGE SIDEBAR
+   Production UI — matches current Sidebar.jsx
+   ========================================================= */
+
+.sidebar {
+    width: 236px;
+    min-width: 236px;
+    height: 100vh;
+
+    position: sticky;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    background:
+        radial-gradient(
+            circle at 0% 0%,
+            rgba(91, 140, 255, 0.07),
+            transparent 28%
+        ),
+        linear-gradient(
+            180deg,
+            #0d1422 0%,
+            #0a0f1c 100%
+        );
+
+    border-right: 1px solid #243049;
+
+    color: #eaf0fb;
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Helvetica,
+        Arial,
+        sans-serif;
+
+    overflow: hidden;
+    z-index: 100;
+}
+
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.brand {
+    min-height: 82px;
+    padding: 20px 18px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.brand-icon {
+    width: 40px;
+    height: 40px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 11px;
+
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff6a3d 0%,
+            #ff4d5e 100%
+        );
+
+    box-shadow:
+        0 8px 22px rgba(255, 77, 94, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.20);
+}
+
+.brand-name {
+    color: #f7f9fd;
+
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.15;
+
+    letter-spacing: -0.3px;
+}
+
+.brand-subtitle {
+    margin-top: 4px;
+
+    color: #71809a;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    letter-spacing: 0.75px;
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+
+.sidebar-nav {
+    flex: 1;
+
+    padding: 18px 10px;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    scrollbar-width: thin;
+    scrollbar-color: #29364e transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background: #29364e;
+    border-radius: 10px;
+}
+
+
+/* =========================================================
+   NAV SECTION LABEL
+   ========================================================= */
+
+.nav-section {
+    margin: 8px 10px 9px;
+
+    color: #59677f;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+}
+
+.settings-section {
+    margin-top: 27px;
+}
+
+
+/* =========================================================
+   NAV ITEM
+   ========================================================= */
+
+.nav-item {
+    position: relative;
+
+    min-height: 44px;
+
+    margin: 3px 0;
+    padding: 0 12px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    border-radius: 8px;
+
+    color: #8997ad;
+
+    text-decoration: none;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    transition:
+        background 160ms ease,
+        color 160ms ease,
+        transform 160ms ease;
+}
+
+.nav-item svg {
+    flex-shrink: 0;
+
+    color: #68768d;
+
+    transition:
+        color 160ms ease,
+        transform 160ms ease;
+}
+
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+.nav-item:hover {
+    color: #eaf0fb;
+
+    background: rgba(255, 255, 255, 0.045);
+
+    transform: translateX(2px);
+}
+
+.nav-item:hover svg {
+    color: #aebbd0;
+}
+
+
+/* =========================================================
+   ACTIVE
+   ========================================================= */
+
+.nav-item.active {
+    color: #ffffff;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(255, 106, 61, 0.13),
+            rgba(255, 106, 61, 0.035)
+        );
+
+    box-shadow:
+        inset 3px 0 0 #ff6a3d;
+}
+
+.nav-item.active svg {
+    color: #ff7a52;
+}
+
+
+/* =========================================================
+   ACTIVE GLOW
+   ========================================================= */
+
+.nav-item.active::after {
+    content: "";
+
+    position: absolute;
+
+    right: 9px;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #ff6a3d;
+
+    box-shadow:
+        0 0 8px rgba(255, 106, 61, 0.7);
+}
+
+
+/* =========================================================
+   SIDEBAR FOOTER
+   ========================================================= */
+
+.sidebar-footer {
+    padding: 14px 12px 16px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(10, 15, 28, 0.3),
+            rgba(10, 15, 28, 0.9)
+        );
+}
+
+
+/* =========================================================
+   SYSTEM STATUS
+   ========================================================= */
+
+.system-status {
+    min-height: 34px;
+
+    padding: 0 10px;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    color: #77859c;
+
+    font-size: 10px;
+    font-weight: 600;
+
+    border-radius: 7px;
+
+    background: rgba(43, 198, 177, 0.045);
+
+    border: 1px solid rgba(43, 198, 177, 0.10);
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #2bc6b1;
+
+    box-shadow:
+        0 0 0 3px rgba(43, 198, 177, 0.10),
+        0 0 10px rgba(43, 198, 177, 0.45);
+}
+
+
+/* =========================================================
+   VERSION
+   ========================================================= */
+
+.version {
+    margin: 10px 10px 12px;
+
+    color: #4f5d74;
+
+    font-size: 9px;
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+.logout-button {
+    width: 100%;
+    min-height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    padding: 0 12px;
+
+    border: 1px solid rgba(255, 77, 94, 0.16);
+    border-radius: 8px;
+
+    background: rgba(255, 77, 94, 0.045);
+
+    color: #aeb7c7;
+
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        background 160ms ease,
+        border-color 160ms ease,
+        color 160ms ease,
+        transform 160ms ease;
+}
+
+.logout-button svg {
+    color: #8995a9;
+
+    transition:
+        color 160ms ease,
+        transform 160ms ease;
+}
+
+.logout-button:hover {
+    color: #ffffff;
+
+    background: rgba(255, 77, 94, 0.11);
+
+    border-color: rgba(255, 77, 94, 0.35);
+
+    transform: translateY(-1px);
+}
+
+.logout-button:hover svg {
+    color: #ff6b78;
+
+    transform: translateX(2px);
+}
+
+.logout-button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================================
+   FOCUS
+   ========================================================= */
+
+.nav-item:focus-visible,
+.logout-button:focus-visible {
+    outline: 2px solid #5b8cff;
+    outline-offset: 2px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+    .sidebar {
+        width: 220px;
+        min-width: 220px;
+    }
+
+    .brand {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .nav-item {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        min-width: 0;
+        height: auto;
+
+        position: relative;
+
+        border-right: none;
+        border-bottom: 1px solid #243049;
+    }
+
+    .brand {
+        min-height: 68px;
+
+        padding: 14px 16px;
+    }
+
+    .sidebar-nav {
+        padding: 10px 12px;
+
+        display: flex;
+        align-items: center;
+        gap: 6px;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .nav-section {
+        display: none;
+    }
+
+    .nav-item {
+        flex: 0 0 auto;
+
+        min-height: 40px;
+
+        padding: 0 12px;
+
+        margin: 0;
+
+        white-space: nowrap;
+    }
+
+    .nav-item.active {
+        box-shadow:
+            inset 0 -3px 0 #ff6a3d;
+    }
+
+    .nav-item.active::after {
+        display: none;
+    }
+
+    .settings-section {
+        display: none;
+    }
+
+    .sidebar-footer {
+        padding: 10px 12px;
+
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+    }
+
+    .system-status {
+        grid-column: 1;
+    }
+
+    .version {
+        grid-column: 2;
+
+        margin: 0;
+
+        display: flex;
+        align-items: center;
+    }
+
+    .logout-button {
+        grid-column: 1 / -1;
+    }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 480px) {
+    .brand {
+        min-height: 62px;
+    }
+
+    .brand-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .brand-name {
+        font-size: 15px;
+    }
+
+    .brand-subtitle {
+        font-size: 9px;
+    }
+
+    .sidebar-nav {
+        padding: 8px;
+    }
+
+    .nav-item {
+        font-size: 12px;
+    }
+
+    .system-status {
+        font-size: 9px;
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .nav-item,
+    .nav-item svg,
+    .logout-button,
+    .logout-button svg {
+        transition: none;
+    }
+}

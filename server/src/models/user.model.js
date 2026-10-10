@@ -1,3 +1,4 @@
+
 const db = require("../config/database");
 
 async function findByEmail(email) {
@@ -72,6 +73,7 @@ async function findAuthStateById(id) {
         `
         SELECT
             id,
+            role,
             is_active,
             token_version
         FROM users
