@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import api from "../../services/api";
 
 import {
@@ -169,6 +170,17 @@ export default function AIInvestigator() {
         setTransactionId
 
     ] = useState("");
+
+    const [searchParams] = useSearchParams();
+
+    useEffect(() => {
+        const selectedTransactionId =
+            searchParams.get("transactionId")?.trim() || "";
+
+        if (selectedTransactionId) {
+            setTransactionId(selectedTransactionId);
+        }
+    }, [searchParams]);
 
     const [
 
