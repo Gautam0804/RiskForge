@@ -1,17 +1,9 @@
 const express = require("express");
 
-const controller =
-    require("../controllers/transaction.controller");
-
-const validate =
-    require("../middleware/validate.middleware");
-
-const {
-    authenticate
-} = require("../middleware/auth.middleware");
-
-const asyncHandler =
-    require("../utils/asyncHandler");
+const controller = require("../controllers/transaction.controller");
+const validate = require("../middleware/validate.middleware");
+const { authenticate } = require("../middleware/auth.middleware");
+const asyncHandler = require("../utils/asyncHandler");
 
 const {
     createTransactionSchema,
@@ -22,10 +14,7 @@ const router = express.Router();
 
 router.use(authenticate);
 
-router.get(
-    "/",
-    asyncHandler(controller.list)
-);
+router.get("/", asyncHandler(controller.list));
 
 router.get(
     "/:transactionId",
@@ -37,6 +26,19 @@ router.post(
     "/",
     validate(createTransactionSchema),
     asyncHandler(controller.create)
+);
+
+// Keep the existing transactionId validation and authenticated route guard.
+router.patch(
+    "/:transactionId",
+    validate(transactionIdSchema),
+    asyncHandler(controller.update)
+);
+
+router.delete(
+    "/:transactionId",
+    validate(transactionIdSchema),
+    asyncHandler(controller.remove)
 );
 
 module.exports = router;
