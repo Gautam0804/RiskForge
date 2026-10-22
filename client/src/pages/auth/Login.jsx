@@ -1,3 +1,4 @@
+
 import { useEffect, useRef, useState } from "react";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import {
@@ -12,24 +13,63 @@ import {
     Activity,
     Zap,
     ArrowRight,
+    ScanSearch,
+    Radio,
+    Network,
 } from "lucide-react";
 
 import useAuth from "../../hooks/useAuth";
 import "./Login.css";
 
+const features = [
+    {
+        id: "ai",
+        number: "01",
+        title: "AI Detection",
+        description:
+            "Detect anomalies and uncover suspicious transaction patterns.",
+        metric: "98.7%",
+        metricLabel: "MODEL CONFIDENCE",
+        icon: BrainCircuit,
+        className: "feature-blue",
+        signal: "AI ENGINE ACTIVE",
+    },
+    {
+        id: "monitor",
+        number: "02",
+        title: "Real-Time Monitoring",
+        description:
+            "Track high-risk activity as it happens across your network.",
+        metric: "LIVE",
+        metricLabel: "TRANSACTION STREAM",
+        icon: Activity,
+        className: "feature-cyan",
+        signal: "LIVE MONITORING",
+    },
+    {
+        id: "intel",
+        number: "03",
+        title: "Risk Intelligence",
+        description:
+            "Convert complex risk signals into actionable insights.",
+        metric: "360°",
+        metricLabel: "RISK VISIBILITY",
+        icon: Zap,
+        className: "feature-violet",
+        signal: "INTELLIGENCE READY",
+    },
+];
+
 export default function Login() {
     const { login, isAuthenticated } = useAuth();
-
     const navigate = useNavigate();
     const location = useLocation();
-
     const emailRef = useRef(null);
 
     const [form, setForm] = useState({
         email: "",
         password: "",
     });
-
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
@@ -50,25 +90,17 @@ export default function Login() {
             [name]: value,
         }));
 
-        if (error) {
-            setError("");
-        }
+        if (error) setError("");
     }
 
     function validateForm() {
         const email = form.email.trim();
 
-        if (!email) {
-            return "Email address is required.";
-        }
-
-        if (!email.includes("@")) {
+        if (!email) return "Email address is required.";
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
             return "Please enter a valid email address.";
         }
-
-        if (!form.password) {
-            return "Password is required.";
-        }
+        if (!form.password) return "Password is required.";
 
         return "";
     }
@@ -76,9 +108,7 @@ export default function Login() {
     async function handleSubmit(event) {
         event.preventDefault();
 
-        if (loading) {
-            return;
-        }
+        if (loading) return;
 
         setError("");
 
@@ -99,70 +129,41 @@ export default function Login() {
             const destination =
                 location.state?.from?.pathname || "/dashboard";
 
-            navigate(destination, {
-                replace: true,
-            });
+            navigate(destination, { replace: true });
         } catch (error) {
             console.error("Login failed:", error);
 
-            const message =
+            setError(
                 error?.response?.data?.message ||
-                error?.message ||
-                "Unable to sign in. Please check your credentials.";
-
-            setError(message);
+                    error?.message ||
+                    "Unable to sign in. Please check your credentials."
+            );
         } finally {
             setLoading(false);
         }
     }
 
     return (
-        <div className="login-page">
-
-            {/* =================================================
-                Background
-            ================================================= */}
-
-            <div className="login-bg-grid" />
-
+        <main className="login-page">
+            <div className="login-bg-grid" aria-hidden="true" />
             <div className="login-background-glow login-glow-one" />
             <div className="login-background-glow login-glow-two" />
 
-
-            {/* =================================================
-                LEFT PRODUCT PANEL
-            ================================================= */}
-
+            {/* LEFT: BRAND AND 3D FEATURE CARDS */}
             <section className="login-product-panel">
-
                 <div className="login-product-content">
-
-                    {/* Brand */}
-
                     <div className="login-product-brand">
-
                         <div className="login-product-logo">
-                            <ShieldCheck
-                                size={27}
-                                strokeWidth={2.2}
-                            />
+                            <ShieldCheck size={27} strokeWidth={2.2} />
                         </div>
 
                         <div>
                             <h1>RiskForge</h1>
-
-                            <span>
-                                AI Risk Intelligence Platform
-                            </span>
+                            <span>AI Risk Intelligence Platform</span>
                         </div>
-
                     </div>
 
-
-                    {/* Main heading */}
-
                     <div className="login-product-heading">
-
                         <span className="login-product-eyebrow">
                             <span className="login-live-dot" />
                             REAL-TIME FRAUD INTELLIGENCE
@@ -171,113 +172,96 @@ export default function Login() {
                         <h2>
                             Detect risk.
                             <br />
-
                             <span>Investigate faster.</span>
                         </h2>
 
                         <p>
-                            RiskForge combines AI-powered detection,
-                            real-time transaction monitoring and
-                            intelligent investigation workflows to
-                            help security teams identify suspicious
-                            activity before it becomes a larger threat.
+                            Detect suspicious activity, monitor transactions
+                            in real time, and turn complex risk signals into
+                            clear, actionable intelligence.
                         </p>
-
                     </div>
 
-
-                    {/* Product capabilities */}
-
-                    <div className="login-product-features">
-
-                        <div className="login-product-feature">
-
-                            <div className="login-feature-icon blue">
-                                <BrainCircuit size={18} />
-                            </div>
-
-                            <div>
-                                <strong>
-                                    AI-Powered Detection
-                                </strong>
-
-                                <span>
-                                    Analyze transactions and
-                                    identify abnormal risk patterns.
-                                </span>
-                            </div>
-
+                    <div className="feature-stage">
+                        <div className="feature-stage-label">
+                            <span className="stage-label-line" />
+                            INTELLIGENCE MODULES
+                            <span className="stage-label-count">03</span>
                         </div>
 
+                        <div className="login-product-features">
+                            {features.map((feature) => {
+                                const Icon = feature.icon;
 
-                        <div className="login-product-feature">
+                                return (
+                                    <article
+                                        className={`login-product-feature ${feature.className}`}
+                                        key={feature.id}
+                                    >
+                                        <div className="feature-card-edge" />
 
-                            <div className="login-feature-icon cyan">
-                                <Activity size={18} />
-                            </div>
+                                        <div className="feature-card-top">
+                                            <div className="login-feature-icon">
+                                                <Icon size={20} />
+                                            </div>
 
-                            <div>
-                                <strong>
-                                    Real-Time Monitoring
-                                </strong>
+                                            <span className="feature-number">
+                                                {feature.number}
+                                            </span>
+                                        </div>
 
-                                <span>
-                                    Monitor suspicious activity
-                                    and high-risk transactions.
-                                </span>
-                            </div>
+                                        <div className="feature-card-body">
+                                            <h3>{feature.title}</h3>
+                                            <p>{feature.description}</p>
+                                        </div>
 
+                                        <div className="feature-card-metric">
+                                            <div>
+                                                <strong>{feature.metric}</strong>
+                                                <span>{feature.metricLabel}</span>
+                                            </div>
+
+                                            <div className="feature-signal-icon">
+                                                {feature.id === "ai" && (
+                                                    <ScanSearch size={19} />
+                                                )}
+                                                {feature.id === "monitor" && (
+                                                    <Radio size={19} />
+                                                )}
+                                                {feature.id === "intel" && (
+                                                    <Network size={19} />
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        <div className="feature-card-status">
+                                            <span className="feature-status-dot" />
+                                            {feature.signal}
+                                        </div>
+                                    </article>
+                                );
+                            })}
                         </div>
-
-
-                        <div className="login-product-feature">
-
-                            <div className="login-feature-icon violet">
-                                <Zap size={18} />
-                            </div>
-
-                            <div>
-                                <strong>
-                                    Risk Intelligence
-                                </strong>
-
-                                <span>
-                                    Turn complex signals into
-                                    actionable investigation insights.
-                                </span>
-                            </div>
-
-                        </div>
-
                     </div>
-
-
-                    {/* Mini intelligence visualization */}
 
                     <div className="login-intelligence-card">
-
                         <div className="login-intelligence-header">
-
                             <div>
-                                <span>
-                                    RISK INTELLIGENCE
-                                </span>
-
-                                <strong>
-                                    Live Detection Engine
-                                </strong>
+                                <span>RISK INTELLIGENCE</span>
+                                <strong>Live Detection Engine</strong>
                             </div>
 
                             <div className="login-intelligence-status">
                                 <span />
                                 ACTIVE
                             </div>
-
                         </div>
 
-
-                        <div className="login-intelligence-chart">
-
+                        <div
+                            className="login-intelligence-chart"
+                            aria-label="Illustrative risk signal chart"
+                        >
+                            <div className="chart-grid-lines" />
                             <div className="chart-line chart-line-one" />
                             <div className="chart-line chart-line-two" />
                             <div className="chart-line chart-line-three" />
@@ -287,74 +271,30 @@ export default function Login() {
                             <div className="chart-point point-three" />
                             <div className="chart-point point-four" />
                             <div className="chart-point point-five" />
-
                         </div>
-
 
                         <div className="login-intelligence-footer">
-
-                            <span>
-                                Detection engine operational
-                            </span>
-
-                            <span>
-                                <ArrowRight size={13} />
-                            </span>
-
+                            <span>Detection engine operational</span>
+                            <ArrowRight size={14} />
                         </div>
-
                     </div>
-
-
-                    {/* Product footer */}
 
                     <div className="login-product-footer">
-
-                        <span>
-                            RiskForge Security Platform
-                        </span>
-
-                        <span>•</span>
-
-                        <span>
-                            AI Fraud Detection
-                        </span>
-
+                        <span>RiskForge Security Platform</span>
+                        <span className="footer-separator">•</span>
+                        <span>AI Fraud Detection</span>
                     </div>
-
                 </div>
-
             </section>
 
-
-            {/* =================================================
-                RIGHT LOGIN PANEL
-            ================================================= */}
-
+            {/* RIGHT: AUTHENTICATION */}
             <section className="login-auth-panel">
-
                 <div className="login-card">
-
-                    {/* Login heading */}
-
                     <div className="login-header">
-
-                        <span className="login-eyebrow">
-                            SECURE ACCESS
-                        </span>
-
-                        <h2>
-                            Welcome back
-                        </h2>
-
-                        <p>
-                            Sign in to your risk operations console.
-                        </p>
-
+                        <span className="login-eyebrow">SECURE ACCESS</span>
+                        <h2>Welcome back</h2>
+                        <p>Sign in to your risk operations console.</p>
                     </div>
-
-
-                    {/* Error */}
 
                     {error && (
                         <div
@@ -363,32 +303,19 @@ export default function Login() {
                             aria-live="polite"
                         >
                             <AlertCircle size={17} />
-
-                            <span>
-                                {error}
-                            </span>
+                            <span>{error}</span>
                         </div>
                     )}
-
-
-                    {/* Form */}
 
                     <form
                         className="login-form"
                         onSubmit={handleSubmit}
                         noValidate
                     >
-
-                        {/* Email */}
-
                         <div className="form-group">
-
-                            <label htmlFor="email">
-                                Email address
-                            </label>
+                            <label htmlFor="email">Email address</label>
 
                             <div className="login-input-wrapper">
-
                                 <Mail
                                     className="login-input-icon"
                                     size={17}
@@ -408,81 +335,63 @@ export default function Login() {
                                     disabled={loading}
                                     required
                                 />
-
                             </div>
-
                         </div>
 
+                        <div className="form-group">
+                            <label htmlFor="password">Password</label>
 
-                        {/* Password */}
+                            <div className="login-input-wrapper">
+                                <Lock
+                                    size={16}
+                                    className="login-input-icon"
+                                />
 
-                   <div className="form-group">
-    <label htmlFor="password">
-        Password
-    </label>
+                                <input
+                                    id="password"
+                                    name="password"
+                                    type={showPassword ? "text" : "password"}
+                                    value={form.password}
+                                    onChange={handleChange}
+                                    placeholder="Enter your password"
+                                    autoComplete="current-password"
+                                    disabled={loading}
+                                    required
+                                />
 
-    <div className="login-input-wrapper">
-        <Lock
-            size={16}
-            className="login-input-icon"
-        />
-
-        <input
-            id="password"
-            name="password"
-            type={showPassword ? "text" : "password"}
-            value={form.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
-            autoComplete="current-password"
-            disabled={loading}
-            required
-        />
-
-        <button
-            type="button"
-            className="login-password-toggle"
-            onClick={() => setShowPassword((previous) => !previous)}
-            disabled={loading}
-            aria-label={
-                showPassword
-                    ? "Hide password"
-                    : "Show password"
-            }
-        >
-            {showPassword ? (
-                <EyeOff size={16} />
-            ) : (
-                <Eye size={16} />
-            )}
-        </button>
-    </div>
-</div>
-
-
-                        {/* Security */}
+                                <button
+                                    type="button"
+                                    className="login-password-toggle"
+                                    onClick={() =>
+                                        setShowPassword((previous) => !previous)
+                                    }
+                                    disabled={loading}
+                                    aria-label={
+                                        showPassword
+                                            ? "Hide password"
+                                            : "Show password"
+                                    }
+                                >
+                                    {showPassword ? (
+                                        <EyeOff size={16} />
+                                    ) : (
+                                        <Eye size={16} />
+                                    )}
+                                </button>
+                            </div>
+                        </div>
 
                         <div className="login-security-note">
-
-                            <ShieldCheck size={16} />
+                            <ShieldCheck size={17} />
 
                             <div>
-
-                                <strong>
-                                    Protected session
-                                </strong>
-
+                                <strong>Protected session</strong>
                                 <span>
-                                    Your authentication session
-                                    is securely managed by RiskForge.
+                                    Your authentication session is securely
+                                    managed by RiskForge.
                                 </span>
-
                             </div>
-
                         </div>
-
-
-                        {/* Submit */}
 
                         <button
                             type="submit"
@@ -490,74 +399,42 @@ export default function Login() {
                             disabled={loading}
                             aria-busy={loading}
                         >
-
                             {loading ? (
                                 <>
                                     <Loader2
                                         size={17}
                                         className="login-spinner"
                                     />
-
-                                    <span>
-                                        Signing in...
-                                    </span>
+                                    <span>Signing in...</span>
                                 </>
                             ) : (
                                 <>
                                     <Lock size={16} />
-
-                                    <span>
-                                        Sign in
-                                    </span>
+                                    <span>Sign in</span>
+                                    <ArrowRight
+                                        size={16}
+                                        className="login-submit-arrow"
+                                    />
                                 </>
                             )}
-
                         </button>
-
                     </form>
 
-
-                    {/* Development */}
-
                     <div className="login-demo">
-
                         <div className="login-demo-header">
-
-                            <span>
-                                Development environment
-                            </span>
-
+                            <span>Development environment</span>
                             <span className="login-status-dot" />
-
                         </div>
-
-                        <small>
-                            admin@riskforge.com
-                        </small>
-
+                        <small>admin@riskforge.com</small>
                     </div>
-
-
-                    {/* Footer */}
 
                     <div className="login-footer">
-
-                        <span>
-                            RiskForge
-                        </span>
-
+                        <span>RiskForge</span>
                         <span>•</span>
-
-                        <span>
-                            Secure access
-                        </span>
-
+                        <span>Secure access</span>
                     </div>
-
                 </div>
-
             </section>
-
-        </div>
+        </main>
     );
 }
