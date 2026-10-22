@@ -1382,3 +1382,444 @@
     transition: background-color 999999s ease-out 0s !important;
 }
 
+
+/* =========================================
+   RISKFORGE — NO BLUE COLOR THEME
+   Emerald + Lime + Warm Gold
+   ========================================= */
+
+.login-page {
+    --rf-blue: #10b981;
+    --rf-cyan: #a3e635;
+    --rf-violet: #fbbf24;
+
+    background:
+        radial-gradient(
+            ellipse at 20% 30%,
+            rgba(16, 185, 129, 0.13),
+            transparent 42%
+        ),
+        radial-gradient(
+            ellipse at 75% 85%,
+            rgba(163, 230, 53, 0.08),
+            transparent 40%
+        ),
+        #030b08 !important;
+}
+
+.login-page .login-background-glow.login-glow-one {
+    background: #10b981 !important;
+}
+
+.login-page .login-background-glow.login-glow-two {
+    background: #a3e635 !important;
+}
+
+/* Brand logo */
+.login-page .login-product-logo {
+    color: #6ee7b7 !important;
+    border-color: rgba(16, 185, 129, 0.35) !important;
+    background: linear-gradient(
+        145deg,
+        rgba(16, 185, 129, 0.22),
+        rgba(163, 230, 53, 0.06)
+    ) !important;
+    box-shadow: 0 0 28px rgba(16, 185, 129, 0.10) !important;
+}
+
+/* Heading gradient */
+.login-page .login-product-heading h2 span {
+    background: linear-gradient(
+        100deg,
+        #34d399,
+        #a3e635 58%,
+        #fbbf24
+    ) !important;
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+}
+
+/* Eyebrows and small accent lines */
+.login-page .login-product-eyebrow,
+.login-page .login-header .login-eyebrow {
+    color: #6ee7b7 !important;
+}
+
+.login-page .stage-label-line {
+    background: #10b981 !important;
+    box-shadow: 0 0 9px rgba(16, 185, 129, 0.55) !important;
+}
+
+/* Feature cards: green, lime, gold */
+.login-page .feature-blue {
+    --feature-color: #34d399 !important;
+    --feature-rgb: 52, 211, 153 !important;
+}
+
+.login-page .feature-cyan {
+    --feature-color: #a3e635 !important;
+    --feature-rgb: 163, 230, 53 !important;
+}
+
+.login-page .feature-violet {
+    --feature-color: #fbbf24 !important;
+    --feature-rgb: 251, 191, 36 !important;
+}
+
+/* Form input focus */
+.login-page .login-form .login-input-wrapper > input:focus {
+    border-color: #10b981 !important;
+    background: #0b1711 !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.13) !important;
+}
+
+.login-page .login-form .login-input-wrapper > input:-webkit-autofill,
+.login-page .login-form .login-input-wrapper > input:-webkit-autofill:hover,
+.login-page .login-form .login-input-wrapper > input:-webkit-autofill:focus {
+    -webkit-text-fill-color: #f1f5f9 !important;
+    box-shadow: 0 0 0 1000px #0b1711 inset !important;
+}
+
+.login-page .login-form .login-input-wrapper:focus-within
+.login-input-icon {
+    color: #34d399 !important;
+}
+
+/* Security icon */
+.login-page .login-security-note > svg {
+    color: #34d399 !important;
+}
+
+/* Login button: emerald to lime, no blue or purple */
+.login-page .login-form .login-submit {
+    color: #04110b !important;
+    background: linear-gradient(
+        105deg,
+        #059669,
+        #34d399 65%,
+        #a3e635
+    ) !important;
+    border-color: rgba(110, 231, 183, 0.30) !important;
+    box-shadow: 0 8px 24px rgba(16, 185, 129, 0.18) !important;
+}
+
+.login-page .login-form .login-submit > span,
+.login-page .login-form .login-submit > svg {
+    color: #04110b !important;
+}
+
+.login-page .login-form .login-submit:hover:not(:disabled) {
+    box-shadow: 0 12px 28px rgba(16, 185, 129, 0.25) !important;
+}
+
+/* Intelligence chart */
+.login-page .chart-line-one {
+    background: #10b981 !important;
+}
+
+.login-page .chart-line-two {
+    background: #a3e635 !important;
+}
+
+.login-page .chart-line-three {
+    background: #fbbf24 !important;
+}
+
+.login-page .chart-point {
+    background: #d1fae5 !important;
+    box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.12) !important;
+}
+
+.login-page .login-intelligence-footer svg {
+    color: #34d399 !important;
+}
+
+/* Keyboard accessibility */
+.login-page button:focus-visible,
+.login-page input:focus-visible {
+    outline-color: rgba(52, 211, 153, 0.85) !important;
+}
+
+/* =========================================================
+   RiskForge — Emerald / Lime / Warm Gold theme
+   Responsive login UI overrides
+   Append after the existing CSS.
+   ========================================================= */
+
+:root {
+  --rf-blue: #34d399;
+  --rf-cyan: #a3e635;
+  --rf-violet: #d6b66c;
+
+  --rf-bg: #070b0a;
+  --rf-surface: #0c1310;
+  --rf-border: rgba(167, 243, 208, 0.14);
+  --rf-text: #f0fdf4;
+  --rf-muted: #9caea4;
+  --rf-green: #10b981;
+  --rf-lime: #a3e635;
+  --rf-gold: #d6b66c;
+}
+
+/* Main page */
+.login-page {
+  color: var(--rf-text);
+  background:
+    radial-gradient(
+      ellipse at 12% 18%,
+      rgba(16, 185, 129, 0.13),
+      transparent 38%
+    ),
+    radial-gradient(
+      ellipse at 88% 82%,
+      rgba(163, 230, 53, 0.07),
+      transparent 35%
+    ),
+    var(--rf-bg);
+  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: clip;
+}
+
+/* Replace blue-toned decorative glows */
+.login-page::before {
+  border-color: rgba(16, 185, 129, 0.12);
+}
+
+/* Brand accents */
+.login-page .brand-logo,
+.login-page .logo-icon {
+  color: var(--rf-green);
+  border-color: rgba(16, 185, 129, 0.28);
+}
+
+/* Heading accents */
+.login-page h1,
+.login-page .login-title {
+  color: var(--rf-text);
+}
+
+.login-page .login-title span,
+.login-page .gradient-text {
+  background: linear-gradient(
+    110deg,
+    #34d399 0%,
+    #a3e635 65%,
+    #d6b66c 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Eyebrows and labels */
+.login-page .eyebrow,
+.login-page .login-subtitle {
+  color: #a7f3d0;
+}
+
+/* Feature cards */
+.login-page .feature-blue {
+  --feature-color: #34d399;
+  --feature-rgb: 52, 211, 153;
+}
+
+.login-page .feature-cyan {
+  --feature-color: #a3e635;
+  --feature-rgb: 163, 230, 53;
+}
+
+.login-page .feature-violet {
+  --feature-color: #d6b66c;
+  --feature-rgb: 214, 182, 108;
+}
+
+/* Inputs: dark background even with browser autofill */
+.login-page .login-form .login-input-wrapper > input,
+.login-page .login-form .login-input-wrapper > input:focus,
+.login-page .login-form .login-input-wrapper > input:-webkit-autofill,
+.login-page .login-form .login-input-wrapper > input:-webkit-autofill:hover,
+.login-page .login-form .login-input-wrapper > input:-webkit-autofill:focus {
+  background-color: #0c1711 !important;
+  background-image: none !important;
+  color: #f0fdf4 !important;
+  -webkit-text-fill-color: #f0fdf4 !important;
+  caret-color: #a3e635;
+  border-color: rgba(167, 243, 208, 0.2) !important;
+  box-shadow: 0 0 0 1000px #0c1711 inset !important;
+  transition: background-color 999999s ease-out 0s;
+}
+
+.login-page .login-form .login-input-wrapper > input:focus {
+  border-color: #34d399 !important;
+  outline: 2px solid rgba(52, 211, 153, 0.12);
+  outline-offset: 1px;
+}
+
+.login-page input::placeholder {
+  color: #74877b;
+  opacity: 1;
+}
+
+/* Primary action */
+.login-page .login-button,
+.login-page button[type="submit"] {
+  color: #07110b;
+  background: linear-gradient(110deg, #34d399, #a3e635);
+  border: 1px solid rgba(190, 242, 100, 0.35);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.15);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.login-page .login-button:hover,
+.login-page button[type="submit"]:hover {
+  filter: brightness(1.06);
+  box-shadow: 0 10px 28px rgba(16, 185, 129, 0.23);
+  transform: translateY(-1px);
+}
+
+.login-page .login-button:active,
+.login-page button[type="submit"]:active {
+  transform: translateY(0);
+}
+
+.login-page .login-button:disabled,
+.login-page button[type="submit"]:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+  transform: none;
+}
+
+/* Links and small accents */
+.login-page a {
+  color: #6ee7b7;
+}
+
+.login-page a:hover {
+  color: #bef264;
+}
+
+.login-page .security-icon,
+.login-page .success-icon {
+  color: #34d399;
+}
+
+/* Consistent sizing */
+.login-page *,
+.login-page *::before,
+.login-page *::after {
+  box-sizing: border-box;
+}
+
+.login-page img,
+.login-page svg {
+  max-width: 100%;
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .login-page {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+
+  .login-page .login-container,
+  .login-page .login-layout {
+    gap: 32px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .login-page {
+    padding: 28px 20px;
+    min-height: 100dvh;
+  }
+
+  .login-page .login-container,
+  .login-page .login-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    max-width: 480px;
+    gap: 28px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .login-page .login-form-container,
+  .login-page .login-card,
+  .login-page .login-panel {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+  }
+
+  .login-page h1,
+  .login-page .login-title {
+    font-size: clamp(1.9rem, 7vw, 2.6rem);
+    line-height: 1.15;
+    overflow-wrap: anywhere;
+  }
+
+  .login-page .login-form {
+    width: 100%;
+  }
+
+  .login-page input,
+  .login-page select,
+  .login-page textarea {
+    max-width: 100%;
+    font-size: 16px;
+  }
+
+  .login-page .login-button,
+  .login-page button[type="submit"] {
+    width: 100%;
+    min-height: 48px;
+  }
+
+  .login-page .feature-grid,
+  .login-page .features-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}
+
+/* Narrow phones */
+@media (max-width: 420px) {
+  .login-page {
+    padding: 22px 16px;
+  }
+
+  .login-page .login-container,
+  .login-page .login-layout {
+    gap: 22px;
+  }
+
+  .login-page .feature-grid,
+  .login-page .features-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .login-page .login-card,
+  .login-page .login-panel {
+    padding: 22px 18px;
+  }
+}
+
+/* Respect reduced-motion settings */
+@media (prefers-reduced-motion: reduce) {
+  .login-page *,
+  .login-page *::before,
+  .login-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
